@@ -1303,3 +1303,23 @@ Migrating to AddPubDateEtcToArticle (20130803215050)
   [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130803215050')
   [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
   [1m[35m (0.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+***** Debugger requested, but was not available (ensure ruby-debug is listed in Gemfile/installed as gem): Start server with --debugger to enable *****
+
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (11.2ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", "author"], ["created_at", Sat, 03 Aug 2013 22:20:49 UTC +00:00], ["file_path", #<Pathname:/Users/joshuamartin/pouch_rails/public/assets/articles/article.html>], ["preview", "preview"], ["published", "published"], ["title", "title_string"], ["updated", "updated"], ["updated_at", Sat, 03 Aug 2013 22:20:49 UTC +00:00], ["url", "http://www.test.com"]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.7ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", "author"], ["created_at", Sat, 03 Aug 2013 22:26:56 UTC +00:00], ["file_path", nil], ["preview", "preview"], ["published", "published"], ["title", "title_string"], ["updated", "updated"], ["updated_at", Sat, 03 Aug 2013 22:26:56 UTC +00:00], ["url", "http://www.test.com"]]
+  [1m[36m (2.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mUPDATE "articles" SET "file_path" = '--- !ruby/object:Pathname
+path: /Users/joshuamartin/pouch_rails/public/assets/articles/article3.html
+', "updated_at" = '2013-08-03 22:26:56.015334' WHERE "articles"."id" = 3[0m
+  [1m[35m (0.5ms)[0m  COMMIT
