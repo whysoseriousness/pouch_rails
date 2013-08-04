@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
         @articles.push({name: s.name, feed: s.source.articles})
       end
     else
-      @articles = Article.all
+      @articles = [{name: "all", feed: Article.all}]
     end
 
     respond_to do |format|
