@@ -37,6 +37,14 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) 
 			
+			# Verge doesn't have spaces in italicized thext
+			node = page_content.at('i')
+			unless node.nil?
+				for i in node.xpath('//i/text()')
+					i.content = ' ' + i.content + ' '
+				end
+			end
+			
 			page_content = format_content(page_content)
 			
 			#puts "Title: #{title}"
@@ -144,6 +152,8 @@ namespace :scrape do
 			end
 			node.remove
 		end
+		
+		#Space out italics
 		
 		page_content = page_content.to_s
 		page_content = page_content.gsub(/\\/, '\\') #make sure to do this before encoding double quotes!
