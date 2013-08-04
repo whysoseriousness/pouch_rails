@@ -32,29 +32,29 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # GET /subscriptions/1/edit
-  def edit
-    @subscription = Subscription.find(params[:id])
-  end
+	  # GET /subscriptions/1/edit
+	  def edit
+		@subscription = Subscription.find(params[:id])
+	  end
 
-  # POST /subscriptions
-  # POST /subscriptions.json
-  def create
-	inputs = params[:subscription]
-	puts inputs
-	#user_id = User.joins(Subscription).
-    @subscription = Subscription.new(params[:subscription])
+	# POST /subscriptions
+	# POST /subscriptions.json
+	def create
+		user_id = User.where("email = ?", params[:email]).pluck(:id).first
+		source_id = Source.where("url = ?", params[:source_url]).pluck(:id).first
+		
+		@subscription = Subscription.new({source_id: source_id, user_id: user_id})
 
-    respond_to do |format|
-      if @subscription.save
-        format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
-        format.json { render json: @subscription, status: :created, location: @subscription }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @subscription.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+		respond_to do |format|
+			if @subscription.save
+				format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
+				format.json { render json: @subscription, status: :created, location: @subscription }
+			else
+				format.html { render action: "new" }
+				format.json { render json: @subscription.errors, status: :unprocessable_entity }
+			end
+		end
+	end
 
   # PUT /subscriptions/1
   # PUT /subscriptions/1.json
@@ -75,7 +75,12 @@ class SubscriptionsController < ApplicationController
   # DELETE /subscriptions/1
   # DELETE /subscriptions/1.json
   def destroy
-    @subscription = Subscription.find(params[:id])
+	user_id = User.where("email = ?", params[:email]).pluck(:id).first
+	source_id = Source.where("url = ?", params[:source_url]).pluck(:id).first
+		
+	@subscription = Subscription.new({source_id: source_id, user_id: user_id})
+  
+    #@subscription = Subscription.find(params[:id])
     @subscription.destroy
 
     respond_to do |format|

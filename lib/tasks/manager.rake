@@ -9,10 +9,12 @@ namespace :manage do
 		create_source("The Verge", 'http://www.theverge.com/')
 		create_source("Tech Crunch", 'http://www.techcrunch.com')
 		
-		create_user()
-		
 		Rake::Task["scrape:all"].reenable
 		Rake::Task["scrape:all"].invoke
+		
+		create_user()
+		
+		create_subscription()
 	end
 	
 	task :cleardb => :environment do
@@ -35,13 +37,11 @@ namespace :manage do
 		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" localhost:3000/users'
 		
 		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" http://serene-ridge-8390.herokuapp.com/users'
+	end
 	
-#		user = User.where("email = ?", email).first
-#		if user.nil?
-#			user = User.new({email: email, encrypted_password: password})
-#			unless user.save
-#				puts "user did not save"
-#			end
-#		end
+	def create_subscription()
+		Kernel.system 'curl -d "email=test@test.com" -d "source_url=http://www.theverge.com/" localhost:3000/subscriptions'
+		
+		Kernel.system 'curl -d "email=test@test.com" -d "source_url=http://www.theverge.com/"  http://serene-ridge-8390.herokuapp.com/subscriptions'
 	end
 end

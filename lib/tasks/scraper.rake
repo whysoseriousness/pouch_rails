@@ -37,6 +37,10 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) 
 			
+			page_content.css("a").each do |a|
+				a.replace(a.content)
+			end
+			
 			#puts "Title: #{title}"
 			#puts "Published: #{published} (last updated #{updated})"
 			#puts "Author: #{author}"
@@ -77,9 +81,13 @@ namespace :scrape do
 			page_url = item.at_css("origlink").text
 			
 			# Logic to get page_content
-			page_content = item.at_css("encoded")
+			page_content = item.at_css("encoded").css("p")
 			
 			preview = get_preview(page_content)
+			
+			page_content.css("a").each do |a|
+				a.replace(a.content)
+			end
 			
 			#puts "Title: #{title}"
 			#puts "Published: #{published} (last updated #{updated})"
@@ -99,7 +107,8 @@ namespace :scrape do
 	end
 	
 	# remove white space between lines
-	def pretty_strip(html) 
+	def pretty_strip(html_all) 
+		html = html_all.css("p")
 		html.search('//text()').each do |t| 
 			t.replace(t.content.strip)
 		end
