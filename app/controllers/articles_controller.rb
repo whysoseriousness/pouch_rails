@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
       @subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
       @articles = []
       @subscriptions.each do |s|
-        @articles.push(s.source.articles)
+        @articles.push({name: s.name, feed: s.source.articles})
       end
     else
       @articles = Article.all
