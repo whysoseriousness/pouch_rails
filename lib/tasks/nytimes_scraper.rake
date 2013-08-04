@@ -19,7 +19,7 @@ namespace :scrape do
 		doc = Nokogiri::HTML(open(url))
 		
 		source_url = 'http://www.theverge.com/'
-		puts "Source URL: #{source_url}"
+		#puts "Source URL: #{source_url}"
 		
 		doc.css("entry").each do |item|
 			title = item.at_css("title").text
@@ -37,19 +37,20 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) 
 			
-			puts "Title: #{title}"
-			puts "Published: #{published} (last updated #{updated})"
-			puts "Author: #{author}"
-			puts "Url: #{page_url}"
-			puts preview
+			#puts "Title: #{title}"
+			#puts "Published: #{published} (last updated #{updated})"
+			#puts "Author: #{author}"
+			#puts "Url: #{page_url}"
+			#puts preview
 			
-			#create_article({url: page_url,
-			#				title: title,
-			#				published: published,
-			#				updated: updated,
-			#				author: author,
-			#				preview: preview,
-			#				page_content: page_content})
+			create_article({url: page_url,
+							title: title,
+							published: published,
+							updated: updated,
+							author: author,
+							preview: preview,
+							source_url: source_url,
+							page_content: page_content})
 		end
 	end
 	
@@ -66,7 +67,7 @@ namespace :scrape do
 		#puts "Source Url: #{source_url}"
 		
 		source_url = 'http://www.techcrunch.com'
-		puts "Source URL: #{source_url}"
+		#puts "Source URL: #{source_url}"
 		
 		doc.css('item').each do |item|
 			title = item.at_css("title").text
@@ -80,19 +81,20 @@ namespace :scrape do
 			
 			preview = get_preview(page_content)
 			
-			puts "Title: #{title}"
-			puts "Published: #{published} (last updated #{updated})"
-			puts "Author: #{author}"
-			puts "Url: #{page_url}"
-			puts preview
+			#puts "Title: #{title}"
+			#puts "Published: #{published} (last updated #{updated})"
+			#puts "Author: #{author}"
+			#puts "Url: #{page_url}"
+			#puts preview
 			
-			#create_article({url: page_url,
-			#				title: title,
-			#				published: published,
-			#				updated: updated,
-			#				author: author,
-			#				preview: preview,
-			#				page_content: page_content})
+			create_article({url: page_url,
+							title: title,
+							published: published,
+							updated: updated,
+							author: author,
+							preview: preview,
+							source_url: source_url,
+							page_content: page_content})
 		end
 	end
 	
@@ -113,21 +115,30 @@ namespace :scrape do
 	end
 	
 	def create_article(options = {})
-		page_content = options.delete(:page_content)
+		#{url, file_path, title, preview, updated, author}
+        page_content = options.delete(:page_content)
 
-		@article = Article.new(options)
-	   
-		if @article.save #{}"/public/assets/articles/filesavingtest.txt"
-			file_name = "article#{@article.id}.html"
-			file_path = Rails.root.join('public', 'assets', 'articles', file_name)
-			@article.file_path = file_path
-			if @article.save
-				File.open(file_path, "w") { |file| file.write page_content }
+        source_url = options.delete(:source_url)
+		
+        # TODO: first or create
+		art = Article.where("url = ?", options[:url]).first
+		if art.nil?
+			puts "Article #{art} does not exist"
+			@source = Source.where("url = ?", source_url).first
+			@article = @source.articles.new(options)
+		   
+			if @article.save #{}"/public/assets/articles/filesavingtest.txt"
+				file_name = "article#{@article.id}.html"
+				file_path = Rails.root.join('public', 'assets', 'articles', file_name)
+				@article.file_path = file_name
+				if @article.save
+					File.open(file_path, "w") { |file| file.write page_content }
+				else
+					puts "article did not save"
+				end
 			else
 				puts "article did not save"
 			end
-		else
-			puts "article did not save"
-		end	
+		end
     end
 end

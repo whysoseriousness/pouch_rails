@@ -4586,3 +4586,1483 @@ Processing by ArticlesController#index as JSON
   [1m[36mArticle Load (0.2ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 1[0m
   [1m[35mArticle Load (0.4ms)[0m  SELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 2
 Completed 200 OK in 91ms (Views: 17.9ms | ActiveRecord: 10.2ms)
+Connecting to database specified by database.yml
+PG::UndefinedTable: ERROR:  relation "sources" does not exist
+LINE 5:              WHERE a.attrelid = '"sources"'::regclass
+                                        ^
+:             SELECT a.attname, format_type(a.atttypid, a.atttypmod),
+                     pg_get_expr(d.adbin, d.adrelid), a.attnotnull, a.atttypid, a.atttypmod
+              FROM pg_attribute a LEFT JOIN pg_attrdef d
+                ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+             WHERE a.attrelid = '"sources"'::regclass
+               AND a.attnum > 0 AND NOT a.attisdropped
+             ORDER BY a.attnum
+
+Connecting to database specified by database.yml
+  [1m[36m (25.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateTests (20130803184415)
+Migrating to CreateArticles (20130803203625)
+Migrating to AddFieldsToArticle (20130803213651)
+Migrating to AddPubDateEtcToArticle (20130803215050)
+Migrating to CreateSources (20130804010655)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (608.0ms)[0m  [1mCREATE TABLE "sources" ("id" serial primary key, "name" character varying(255), "url" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (30.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130804010655')
+  [1m[36m (19.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateSubscriptions (20130804010710)
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (99.0ms)[0m  [1mCREATE TABLE "subscriptions" ("id" serial primary key, "user_id" integer, "source_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130804010710')
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to CreateUsers (20130804012444)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (70.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+PG::DuplicateTable: ERROR:  relation "users" already exists
+: CREATE TABLE "users" ("id" serial primary key, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[35m (1.0ms)[0m  ROLLBACK
+Connecting to database specified by database.yml
+  [1m[36m (2.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateTests (20130803184415)
+Migrating to CreateArticles (20130803203625)
+Migrating to AddFieldsToArticle (20130803213651)
+Migrating to AddPubDateEtcToArticle (20130803215050)
+Migrating to CreateSources (20130804010655)
+Migrating to CreateSubscriptions (20130804010710)
+Migrating to CreateUsers (20130804012444)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (49.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20130804012444')
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Migrating to AddDeviseToUsers (20130804012929)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (104.0ms)[0m  [1mALTER TABLE "users" ADD COLUMN "email" character varying(255) DEFAULT '' NOT NULL[0m
+  [1m[35m (114.0ms)[0m  ALTER TABLE "users" ADD COLUMN "encrypted_password" character varying(255) DEFAULT '' NOT NULL
+  [1m[36m (1.0ms)[0m  [1mALTER TABLE "users" ADD COLUMN "reset_password_token" character varying(255)[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "users" ADD COLUMN "reset_password_sent_at" timestamp
+  [1m[36m (0.0ms)[0m  [1mALTER TABLE "users" ADD COLUMN "remember_created_at" timestamp[0m
+  [1m[35m (121.0ms)[0m  ALTER TABLE "users" ADD COLUMN "sign_in_count" integer DEFAULT 0
+  [1m[36m (1.0ms)[0m  [1mALTER TABLE "users" ADD COLUMN "current_sign_in_at" timestamp[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "users" ADD COLUMN "last_sign_in_at" timestamp
+  [1m[36m (0.0ms)[0m  [1mALTER TABLE "users" ADD COLUMN "current_sign_in_ip" character varying(255)[0m
+  [1m[35m (0.0ms)[0m  ALTER TABLE "users" ADD COLUMN "last_sign_in_ip" character varying(255)
+  [1m[36m (39.0ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (30.0ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (0.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20130804012929')[0m
+  [1m[35m (18.0ms)[0m  COMMIT
+Migrating to AddSourceIdToArticle (20130804014312)
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "articles" ADD COLUMN "source_id" integer
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20130804014312')[0m
+  [1m[35m (10.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+  [1m[36mSource Load (5.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-08-03 22:29:09 -0400
+Served asset /rails.png - 200 OK (70ms)
+
+
+Started GET "/sources" for 127.0.0.1 at 2013-08-03 22:29:20 -0400
+Processing by SourcesController#index as HTML
+  [1m[36mSource Load (2.0ms)[0m  [1mSELECT "sources".* FROM "sources" [0m
+  Rendered sources/index.html.erb within layouts/application (14.0ms)
+Compiled articles.css  (41ms)  (pid 9032)
+Compiled scaffolds.css  (17ms)  (pid 9032)
+Compiled sources.css  (3ms)  (pid 9032)
+Compiled subscriptions.css  (2ms)  (pid 9032)
+Compiled tests.css  (3ms)  (pid 9032)
+Compiled users.css  (3ms)  (pid 9032)
+Compiled application.css  (2ms)  (pid 9032)
+Compiled jquery.js  (5ms)  (pid 9032)
+Compiled jquery_ujs.js  (2ms)  (pid 9032)
+Compiled articles.js  (2623ms)  (pid 9032)
+Compiled sources.js  (238ms)  (pid 9032)
+Compiled subscriptions.js  (268ms)  (pid 9032)
+Compiled tests.js  (226ms)  (pid 9032)
+Compiled users.js  (240ms)  (pid 9032)
+Compiled application.js  (4126ms)  (pid 9032)
+Completed 200 OK in 4697ms (Views: 4580.3ms | ActiveRecord: 67.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:25 -0400
+Served asset /application.css - 200 OK (36ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:25 -0400
+Served asset /articles.css - 200 OK (4ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:25 -0400
+Served asset /scaffolds.css - 200 OK (10ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /tests.css - 200 OK (5ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /sources.css - 200 OK (5ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /subscriptions.css - 200 OK (5ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /users.css - 200 OK (3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /jquery.js - 200 OK (13ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /jquery_ujs.js - 200 OK (9ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /articles.js - 200 OK (18ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /users.js - 200 OK (9ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /subscriptions.js - 200 OK (6ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /sources.js - 200 OK (8ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /tests.js - 200 OK (22ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 22:29:26 -0400
+Served asset /application.js - 200 OK (23ms)
+
+
+Started GET "/sources/new" for 127.0.0.1 at 2013-08-03 22:29:31 -0400
+Processing by SourcesController#new as HTML
+  Rendered sources/_form.html.erb (122.0ms)
+  Rendered sources/new.html.erb within layouts/application (175.0ms)
+Completed 200 OK in 215ms (Views: 205.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/sources" for 127.0.0.1 at 2013-08-03 22:30:01 -0400
+Processing by SourcesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wh9p44I/rFx5xJmniS6/xdu7NratWX0mq9VyQolQCFE=", "source"=>{"name"=>"Tech Crunch", "url"=>"http://www.techcrunch.com"}, "commit"=>"Create Source"}
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mSQL (94.0ms)[0m  [1mINSERT INTO "sources" ("created_at", "name", "updated_at", "url") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Sun, 04 Aug 2013 02:30:01 UTC +00:00], ["name", "Tech Crunch"], ["updated_at", Sun, 04 Aug 2013 02:30:01 UTC +00:00], ["url", "http://www.techcrunch.com"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+Redirected to http://localhost:3000/sources/1
+Completed 302 Found in 103ms (ActiveRecord: 96.0ms)
+
+
+Started GET "/sources/1" for 127.0.0.1 at 2013-08-03 22:30:01 -0400
+Processing by SourcesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSource Load (4.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE "sources"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  Rendered sources/show.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 35ms (Views: 28.0ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/sources" for 127.0.0.1 at 2013-08-03 22:30:04 -0400
+Processing by SourcesController#index as HTML
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" 
+  Rendered sources/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 40ms (Views: 37.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/sources/new" for 127.0.0.1 at 2013-08-03 22:30:09 -0400
+Processing by SourcesController#new as HTML
+  Rendered sources/_form.html.erb (2.0ms)
+  Rendered sources/new.html.erb within layouts/application (5.0ms)
+Completed 200 OK in 30ms (Views: 30.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/sources" for 127.0.0.1 at 2013-08-03 22:30:13 -0400
+Processing by SourcesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"wh9p44I/rFx5xJmniS6/xdu7NratWX0mq9VyQolQCFE=", "source"=>{"name"=>"The Verge", "url"=>"http://www.theverge.com/"}, "commit"=>"Create Source"}
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "sources" ("created_at", "name", "updated_at", "url") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Sun, 04 Aug 2013 02:30:13 UTC +00:00], ["name", "The Verge"], ["updated_at", Sun, 04 Aug 2013 02:30:13 UTC +00:00], ["url", "http://www.theverge.com/"]]
+  [1m[36m (30.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/sources/2
+Completed 302 Found in 35ms (ActiveRecord: 32.0ms)
+
+
+Started GET "/sources/2" for 127.0.0.1 at 2013-08-03 22:30:13 -0400
+Processing by SourcesController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE "sources"."id" = $1 LIMIT 1  [["id", "2"]]
+  Rendered sources/show.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 31ms (Views: 29.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/sources" for 127.0.0.1 at 2013-08-03 22:30:15 -0400
+Processing by SourcesController#index as HTML
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" [0m
+  Rendered sources/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 30ms (Views: 28.0ms | ActiveRecord: 1.0ms)
+Connecting to database specified by database.yml
+  [1m[36mSource Load (4.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mSQL (131.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:30:36 UTC +00:00], ["file_path", nil], ["preview", "\"Call your representative!\" We've all heard it before, but actually..."], ["published", "2013-08-04T01:13:04Z"], ["source_id", 2], ["title", "Ping elected officials every time your commute sucks with the 'I'm Stuck' app"], ["updated", "2013-08-04T01:13:04Z"], ["updated_at", Sun, 04 Aug 2013 02:30:36 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure"]]
+  [1m[35m (2.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (41.0ms)[0m  UPDATE "articles" SET "file_path" = 'article33.html', "updated_at" = '2013-08-04 02:30:36.243099' WHERE "articles"."id" = 33
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "T.C. Sottek"], ["created_at", Sun, 04 Aug 2013 02:30:37 UTC +00:00], ["file_path", nil], ["preview", "The International Business Times has announced that it will acquire..."], ["published", "2013-08-03T23:08:30Z"], ["source_id", 2], ["title", "Newsweek sold to business news website less than a year after going digital"], ["updated", "2013-08-03T23:08:30Z"], ["updated_at", Sun, 04 Aug 2013 02:30:37 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times"]]
+  [1m[36m (5.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article34.html', "updated_at" = '2013-08-04 02:30:37.561175' WHERE "articles"."id" = 34[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (0.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:30:40 UTC +00:00], ["file_path", nil], ["preview", "If you've spent any length of time on the internet,..."], ["published", "2013-08-03T22:47:01Z"], ["source_id", 2], ["title", "See the sights of Tokyo in this 150-gigapixel panorama"], ["updated", "2013-08-03T22:47:01Z"], ["updated_at", Sun, 04 Aug 2013 02:30:40 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama"]]
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article35.html', "updated_at" = '2013-08-04 02:30:40.571347' WHERE "articles"."id" = 35
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:30:42 UTC +00:00], ["file_path", nil], ["preview", "High-tech Japanese toilets are vulnerable to attack from their manufacturer's..."], ["published", "2013-08-03T20:52:02Z"], ["source_id", 2], ["title", "Japanese toilet users vulnerable to Bluetooth bidet assaults"], ["updated", "2013-08-03T20:52:02Z"], ["updated_at", Sun, 04 Aug 2013 02:30:42 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability"]]
+  [1m[36m (3.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article36.html', "updated_at" = '2013-08-04 02:30:42.475456' WHERE "articles"."id" = 36[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:30:49 UTC +00:00], ["file_path", nil], ["preview", "The Obama administration has stepped in today to veto an..."], ["published", "2013-08-03T18:58:36Z"], ["source_id", 2], ["title", "President Obama vetoes Samsung patent ban on iPhone 4 and select iPads"], ["updated", "2013-08-03T18:58:36Z"], ["updated_at", Sun, 04 Aug 2013 02:30:49 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article37.html', "updated_at" = '2013-08-04 02:30:49.877879' WHERE "articles"."id" = 37
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:30:51 UTC +00:00], ["file_path", nil], ["preview", "After a poor opening in the US, The Wolverine has..."], ["published", "2013-08-03T18:29:04Z"], ["source_id", 2], ["title", "'Waterworld' was a massive flop, right?"], ["updated", "2013-08-03T18:29:04Z"], ["updated_at", Sun, 04 Aug 2013 02:30:51 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585088/waterworld-flop-statistics"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article38.html', "updated_at" = '2013-08-04 02:30:51.675982' WHERE "articles"."id" = 38[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (2.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:30:54 UTC +00:00], ["file_path", nil], ["preview", "Some scientists' fears may be coming true. The National Science..."], ["published", "2013-08-03T18:02:07Z"], ["source_id", 2], ["title", "National Science Foundation dodges Congressional politics by canceling new political science research "], ["updated", "2013-08-03T18:02:07Z"], ["updated_at", Sun, 04 Aug 2013 02:30:54 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585464/nsf-dodges-congressional-politics-by-canceling-2013-political-science-research-funding"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article39.html', "updated_at" = '2013-08-04 02:30:54.711156' WHERE "articles"."id" = 39
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Verge Forums"], ["created_at", Sun, 04 Aug 2013 02:30:55 UTC +00:00], ["file_path", nil], ["preview", " Continue reading… ..."], ["published", "2013-08-03T17:23:06Z"], ["source_id", 2], ["title", "Share your favorite unsung Android apps - Verge Forums"], ["updated", "2013-08-03T17:23:06Z"], ["updated_at", Sun, 04 Aug 2013 02:30:55 UTC +00:00], ["url", "http://www.theverge.com/2013/8/1/4578078/what-are-the-lesser-known-apps-and-widgets-you-use"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article40.html', "updated_at" = '2013-08-04 02:30:55.842220' WHERE "articles"."id" = 40[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Joshua Kopstein"], ["created_at", Sun, 04 Aug 2013 02:30:58 UTC +00:00], ["file_path", nil], ["preview", "Unless you're one of its many evangelists, you probably still..."], ["published", "2013-08-03T16:30:01Z"], ["source_id", 2], ["title", "Bitcoin suitcase eats your pocket change, spits out digital currency"], ["updated", "2013-08-03T16:30:01Z"], ["updated_at", Sun, 04 Aug 2013 02:30:58 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585220/bitcoin-suitcase-eats-your-pocket-change-spits-out-digital-currency"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article41.html', "updated_at" = '2013-08-04 02:30:58.353364' WHERE "articles"."id" = 41
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (5.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:31:00 UTC +00:00], ["file_path", nil], ["preview", "In the lead-up to the release of the duo's latest..."], ["published", "2013-08-03T15:57:05Z"], ["source_id", 2], ["title", "Explore a cult classic with interactive 'Shaun of the Dead' screenplay"], ["updated", "2013-08-03T15:57:05Z"], ["updated_at", Sun, 04 Aug 2013 02:31:00 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584874/shaun-of-the-dead-screenplay-behind-the-scenes-download"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article42.html', "updated_at" = '2013-08-04 02:31:00.638495' WHERE "articles"."id" = 42[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "I guess today is the day for announcing the sale..."], ["published", "Sat, 03 Aug 2013 22:27:00 +0000"], ["source_id", 1], ["title", "IBT Media Buys Newsweek From IAC"], ["updated", "Sat, 03 Aug 2013 22:27:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/ibt-media-buys-newsweek/"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article43.html', "updated_at" = '2013-08-04 02:31:01.263530' WHERE "articles"."id" = 43
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", " Another seven days have come and gone, July has..."], ["published", "Sat, 03 Aug 2013 22:00:55 +0000"], ["source_id", 1], ["title", "CrunchWeek: MotoX Says Hello, Ridesharing Regulation Wars, More Google Surveillance Suspicions"], ["updated", "Sat, 03 Aug 2013 22:00:55 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/crunchweek-motox-ridesharing-privacy-concerns/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article44.html', "updated_at" = '2013-08-04 02:31:01.275531' WHERE "articles"."id" = 44[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "President Obama’s administration has vetoed a decision by the United..."], ["published", "Sat, 03 Aug 2013 19:25:14 +0000"], ["source_id", 1], ["title", "Obama Administration Vetoes Ban On Certain iPhones And iPads"], ["updated", "Sat, 03 Aug 2013 19:25:14 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/obama-vetoes-apple-ban/"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article45.html', "updated_at" = '2013-08-04 02:31:01.287532' WHERE "articles"."id" = 45
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "The New York Times is selling the Boston Globe and..."], ["published", "Sat, 03 Aug 2013 18:54:29 +0000"], ["source_id", 1], ["title", "The New York Times Company Sells The Boston Globe (And Related Properties) For $70M"], ["updated", "Sat, 03 Aug 2013 18:54:29 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/new-york-times-sells-boston-globe/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article46.html', "updated_at" = '2013-08-04 02:31:01.299532' WHERE "articles"."id" = 46[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (0.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Steve Gillmor"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "The Gillmor Gang — Bret Taylor, Robert Scoble, Kevin Marks,..."], ["published", "Sat, 03 Aug 2013 17:00:42 +0000"], ["source_id", 1], ["title", "Gillmor Gang: What's Up Doc"], ["updated", "Sat, 03 Aug 2013 17:00:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/gillmor-gang-whats-up-doc/"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article47.html', "updated_at" = '2013-08-04 02:31:01.311533' WHERE "articles"."id" = 47
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Peter Yared and Cameron Olthuis"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Editor’s note: Peter Yared is the CTO/CIO and Cameron Olthius is..."], ["published", "Sat, 03 Aug 2013 15:00:04 +0000"], ["source_id", 1], ["title", "In Mastering Machine Intelligence, Google Rewrites Search Engine Rules"], ["updated", "Sat, 03 Aug 2013 15:00:04 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/won-the-seo-wars-google-has/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article48.html', "updated_at" = '2013-08-04 02:31:01.323534' WHERE "articles"."id" = 48[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Jon Evans"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "I spent much of this week at the Black Hat..."], ["published", "Sat, 03 Aug 2013 13:00:52 +0000"], ["source_id", 1], ["title", "The Business Of Fear"], ["updated", "Sat, 03 Aug 2013 13:00:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/the-business-of-fear/"]]
+  [1m[35m (18.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article49.html', "updated_at" = '2013-08-04 02:31:01.353535' WHERE "articles"."id" = 49
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", " The long-running trial of Wikileaks whistle-blower Pfc. Bradley Manning..."], ["published", "Sat, 03 Aug 2013 00:51:24 +0000"], ["source_id", 1], ["title", "A Look Into What The Manning Verdict Means For The Tech Industry"], ["updated", "Sat, 03 Aug 2013 00:51:24 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/a-look-into-what-the-manning-verdict-means-for-the-tech-industry/"]]
+  [1m[36m (18.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article50.html', "updated_at" = '2013-08-04 02:31:01.382537' WHERE "articles"."id" = 50[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "It became known in June that the GCHQ, Britain’s NSA..."], ["published", "Sat, 03 Aug 2013 00:04:10 +0000"], ["source_id", 1], ["title", "Verizon Reportedly Provides British Spy Agency Access To Its Undersea Internet Cables"], ["updated", "Sat, 03 Aug 2013 00:04:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/verizon-reportedly-provides-british-spy-agency-access-to-its-undersea-internet-cables/"]]
+  [1m[35m (3.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article51.html', "updated_at" = '2013-08-04 02:31:01.397538' WHERE "articles"."id" = 51
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "A dispute between CBS and Time Warner Cable over retransmission..."], ["published", "Fri, 02 Aug 2013 23:37:05 +0000"], ["source_id", 1], ["title", "CBS Blocks Time Warner Cable Subscribers From Watching Full Episodes On CBS.com"], ["updated", "Fri, 02 Aug 2013 23:37:05 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/cbs-blocks-time-warner-cable-subscribers-from-watching-full-episodes-on-cbs-com/"]]
+  [1m[36m (10.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article52.html', "updated_at" = '2013-08-04 02:31:01.420539' WHERE "articles"."id" = 52[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Gregory Ferenstein"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Good news for fans of the scientific method: the largest..."], ["published", "Fri, 02 Aug 2013 23:14:46 +0000"], ["source_id", 1], ["title", "University Of California Approves Major Open Access Policy To Make Research Free"], ["updated", "Fri, 02 Aug 2013 23:14:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/university-of-california-approves-major-open-access-policy-to-make-research-free/"]]
+  [1m[35m (2.0ms)[0m  COMMIT
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article53.html', "updated_at" = '2013-08-04 02:31:01.434540' WHERE "articles"."id" = 53
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Rip Empson"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Stephanie Hua spent the last ten years pushing for educational..."], ["published", "Fri, 02 Aug 2013 23:05:52 +0000"], ["source_id", 1], ["title", "Developed By Literacy Experts, Learn With Homer Launches On The iPad To Change How Kids Learn To Read"], ["updated", "Fri, 02 Aug 2013 23:05:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/developed-by-literacy-experts-learn-with-homer-launches-on-the-ipad-to-change-how-kids-learn-to-read/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article54.html', "updated_at" = '2013-08-04 02:31:01.446541' WHERE "articles"."id" = 54[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (0.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Thank you, Y Combinator, for not just investing in a..."], ["published", "Fri, 02 Aug 2013 22:15:42 +0000"], ["source_id", 1], ["title", "What's Asseta, A Marketplace For Used Manufacturing Equipment, Doing In Y Combinator? Um, Making Money"], ["updated", "Fri, 02 Aug 2013 22:15:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/whats-asseta-a-marketplace-for-used-manufacturing-equipment-doing-in-y-combinator-um-making-money/"]]
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.0ms)[0m  UPDATE "articles" SET "file_path" = 'article55.html', "updated_at" = '2013-08-04 02:31:01.459541' WHERE "articles"."id" = 55
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "AOL made another round of cuts today...."], ["published", "Fri, 02 Aug 2013 22:13:52 +0000"], ["source_id", 1], ["title", "AOL Lays Off Members Of AIM, Video Production, And HR Teams"], ["updated", "Fri, 02 Aug 2013 22:13:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/aol-lays-off-members-of-aim-video-production-and-hr-teams/"]]
+  [1m[36m (16.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article56.html', "updated_at" = '2013-08-04 02:31:01.486543' WHERE "articles"."id" = 56[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (1.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "San Francisco-based startup Pixelpipe, which previously offered services for uploading photos..."], ["published", "Fri, 02 Aug 2013 22:06:00 +0000"], ["source_id", 1], ["title", "File Transfer & Syncing Service Pixelpipe Shuts Down – Acquisition In The Works?"], ["updated", "Fri, 02 Aug 2013 22:06:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/file-transfer-syncing-service-pixelpipe-shuts-down-acquisition-in-the-works/"]]
+  [1m[35m (10.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article57.html', "updated_at" = '2013-08-04 02:31:01.509544' WHERE "articles"."id" = 57
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Lunch goers in San Francisco startup neighborhoods like SOMA and..."], ["published", "Fri, 02 Aug 2013 21:52:27 +0000"], ["source_id", 1], ["title", "EAT Club Suspends Food Bus Operations In SF After Getting A Cease And Desist From The City"], ["updated", "Fri, 02 Aug 2013 21:52:27 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/eat-club-suspends-food-bus-operations-in-sf-after-getting-a-cease-and-desist-from-the-city/"]]
+  [1m[36m (12.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article58.html', "updated_at" = '2013-08-04 02:31:01.533546' WHERE "articles"."id" = 58[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (0.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Leena Rao"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "On this week’s episode of Ask A VC, we hosted..."], ["published", "Fri, 02 Aug 2013 21:35:44 +0000"], ["source_id", 1], ["title", "Ask A VC: Greylock's Josh Elman On SoLoMo, Growth Hacking And More"], ["updated", "Fri, 02 Aug 2013 21:35:44 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/ask-a-vc-greylocks-josh-elman-on-solomo-growth-hacking-and-more/"]]
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article59.html', "updated_at" = '2013-08-04 02:31:01.546546' WHERE "articles"."id" = 59
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Frederic Lardinois"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Google today announced a number of updates to YouTube that..."], ["published", "Fri, 02 Aug 2013 21:12:28 +0000"], ["source_id", 1], ["title", "YouTube Expands Live Streaming To Channels With Just 100 Subscribers, Opens Custom Thumbnails & Merchandise Links To All"], ["updated", "Fri, 02 Aug 2013 21:12:28 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/youtube-expands-live-streaming-to-channels-with-just-100-subscribers-opens-custom-thumbnails-merchandise-links-to-all/"]]
+  [1m[36m (19.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article60.html', "updated_at" = '2013-08-04 02:31:01.575548' WHERE "articles"."id" = 60[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mSource Load (0.0ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "Travel startup WeHostels wants to make it easier for people..."], ["published", "Fri, 02 Aug 2013 20:50:10 +0000"], ["source_id", 1], ["title", "Travel Startup WeHostels Goes Big On Mobile With An App For Booking Hostels On The iPad"], ["updated", "Fri, 02 Aug 2013 20:50:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/wehostels-ipad-app/"]]
+  [1m[35m (11.0ms)[0m  COMMIT
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.0ms)[0m  UPDATE "articles" SET "file_path" = 'article61.html', "updated_at" = '2013-08-04 02:31:01.598549' WHERE "articles"."id" = 61
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["file_path", nil], ["preview", "According to a report in CNET today, the FBI wants..."], ["published", "Fri, 02 Aug 2013 20:46:46 +0000"], ["source_id", 1], ["title", "The FBI May Be Working To Install Surveillance Taps On Major US Telecom Carriers"], ["updated", "Fri, 02 Aug 2013 20:46:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:31:01 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/the-fbi-may-be-working-to-install-surveillance-taps-on-major-us-telecom-carriers/"]]
+  [1m[36m (11.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article62.html', "updated_at" = '2013-08-04 02:31:01.620551' WHERE "articles"."id" = 62[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 22:31:11 -0400
+Processing by ArticlesController#index as HTML
+  [1m[35mArticle Load (4.0ms)[0m  SELECT "articles".* FROM "articles" 
+  Rendered articles/index.html.erb within layouts/application (52.0ms)
+Completed 200 OK in 108ms (Views: 82.0ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /users.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /sources.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /subscriptions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /subscriptions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /sources.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:31:15 -0400
+Served asset /users.js - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (7.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585088/waterworld-flop-statistics') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585464/nsf-dodges-congressional-politics-by-canceling-2013-political-science-research-funding') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/1/4578078/what-are-the-lesser-known-apps-and-widgets-you-use') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585220/bitcoin-suitcase-eats-your-pocket-change-spits-out-digital-currency') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584874/shaun-of-the-dead-screenplay-behind-the-scenes-download') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/ibt-media-buys-newsweek/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/crunchweek-motox-ridesharing-privacy-concerns/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/obama-vetoes-apple-ban/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/new-york-times-sells-boston-globe/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/gillmor-gang-whats-up-doc/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/won-the-seo-wars-google-has/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/the-business-of-fear/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/a-look-into-what-the-manning-verdict-means-for-the-tech-industry/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/verizon-reportedly-provides-british-spy-agency-access-to-its-undersea-internet-cables/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/cbs-blocks-time-warner-cable-subscribers-from-watching-full-episodes-on-cbs-com/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/university-of-california-approves-major-open-access-policy-to-make-research-free/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/developed-by-literacy-experts-learn-with-homer-launches-on-the-ipad-to-change-how-kids-learn-to-read/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/whats-asseta-a-marketplace-for-used-manufacturing-equipment-doing-in-y-combinator-um-making-money/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/aol-lays-off-members-of-aim-video-production-and-hr-teams/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/file-transfer-syncing-service-pixelpipe-shuts-down-acquisition-in-the-works/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/eat-club-suspends-food-bus-operations-in-sf-after-getting-a-cease-and-desist-from-the-city/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/ask-a-vc-greylocks-josh-elman-on-solomo-growth-hacking-and-more/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/youtube-expands-live-streaming-to-channels-with-just-100-subscribers-opens-custom-thumbnails-merchandise-links-to-all/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/wehostels-ipad-app/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/the-fbi-may-be-working-to-install-surveillance-taps-on-major-us-telecom-carriers/') LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (6.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (85.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:39:10 UTC +00:00], ["file_path", nil], ["preview", "\"Call your representative!\" We've all heard it before, but actually..."], ["published", "2013-08-04T01:13:04Z"], ["source_id", 2], ["title", "Ping elected officials every time your commute sucks with the 'I'm Stuck' app"], ["updated", "2013-08-04T01:13:04Z"], ["updated_at", Sun, 04 Aug 2013 02:39:10 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article63.html', "updated_at" = '2013-08-04 02:39:10.684524' WHERE "articles"."id" = 63[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "T.C. Sottek"], ["created_at", Sun, 04 Aug 2013 02:39:13 UTC +00:00], ["file_path", nil], ["preview", "The International Business Times has announced that it will acquire..."], ["published", "2013-08-03T23:08:30Z"], ["source_id", 2], ["title", "Newsweek sold to business news website less than a year after going digital"], ["updated", "2013-08-03T23:08:30Z"], ["updated_at", Sun, 04 Aug 2013 02:39:13 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article64.html', "updated_at" = '2013-08-04 02:39:13.026658' WHERE "articles"."id" = 64[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:39:14 UTC +00:00], ["file_path", nil], ["preview", "If you've spent any length of time on the internet,..."], ["published", "2013-08-03T22:47:01Z"], ["source_id", 2], ["title", "See the sights of Tokyo in this 150-gigapixel panorama"], ["updated", "2013-08-03T22:47:01Z"], ["updated_at", Sun, 04 Aug 2013 02:39:14 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article65.html', "updated_at" = '2013-08-04 02:39:14.204725' WHERE "articles"."id" = 65[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:39:18 UTC +00:00], ["file_path", nil], ["preview", "High-tech Japanese toilets are vulnerable to attack from their manufacturer's..."], ["published", "2013-08-03T20:52:02Z"], ["source_id", 2], ["title", "Japanese toilet users vulnerable to Bluetooth bidet assaults"], ["updated", "2013-08-03T20:52:02Z"], ["updated_at", Sun, 04 Aug 2013 02:39:18 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article66.html', "updated_at" = '2013-08-04 02:39:18.122949' WHERE "articles"."id" = 66[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:39:20 UTC +00:00], ["file_path", nil], ["preview", "The Obama administration has stepped in today to veto an..."], ["published", "2013-08-03T18:58:36Z"], ["source_id", 2], ["title", "President Obama vetoes Samsung patent ban on iPhone 4 and select iPads"], ["updated", "2013-08-03T18:58:36Z"], ["updated_at", Sun, 04 Aug 2013 02:39:20 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article67.html', "updated_at" = '2013-08-04 02:39:20.884107' WHERE "articles"."id" = 67[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:39:22 UTC +00:00], ["file_path", nil], ["preview", "After a poor opening in the US, The Wolverine has..."], ["published", "2013-08-03T18:29:04Z"], ["source_id", 2], ["title", "'Waterworld' was a massive flop, right?"], ["updated", "2013-08-03T18:29:04Z"], ["updated_at", Sun, 04 Aug 2013 02:39:22 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585088/waterworld-flop-statistics"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article68.html', "updated_at" = '2013-08-04 02:39:22.469198' WHERE "articles"."id" = 68[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:39:26 UTC +00:00], ["file_path", nil], ["preview", "Some scientists' fears may be coming true. The National Science..."], ["published", "2013-08-03T18:02:07Z"], ["source_id", 2], ["title", "National Science Foundation dodges Congressional politics by canceling new political science research "], ["updated", "2013-08-03T18:02:07Z"], ["updated_at", Sun, 04 Aug 2013 02:39:26 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585464/nsf-dodges-congressional-politics-by-canceling-2013-political-science-research-funding"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article69.html', "updated_at" = '2013-08-04 02:39:26.207411' WHERE "articles"."id" = 69[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Verge Forums"], ["created_at", Sun, 04 Aug 2013 02:39:27 UTC +00:00], ["file_path", nil], ["preview", " Continue reading… ..."], ["published", "2013-08-03T17:23:06Z"], ["source_id", 2], ["title", "Share your favorite unsung Android apps - Verge Forums"], ["updated", "2013-08-03T17:23:06Z"], ["updated_at", Sun, 04 Aug 2013 02:39:27 UTC +00:00], ["url", "http://www.theverge.com/2013/8/1/4578078/what-are-the-lesser-known-apps-and-widgets-you-use"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article70.html', "updated_at" = '2013-08-04 02:39:27.246471' WHERE "articles"."id" = 70[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Joshua Kopstein"], ["created_at", Sun, 04 Aug 2013 02:39:29 UTC +00:00], ["file_path", nil], ["preview", "Unless you're one of its many evangelists, you probably still..."], ["published", "2013-08-03T16:30:01Z"], ["source_id", 2], ["title", "Bitcoin suitcase eats your pocket change, spits out digital currency"], ["updated", "2013-08-03T16:30:01Z"], ["updated_at", Sun, 04 Aug 2013 02:39:29 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585220/bitcoin-suitcase-eats-your-pocket-change-spits-out-digital-currency"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article71.html', "updated_at" = '2013-08-04 02:39:29.277587' WHERE "articles"."id" = 71[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:39:30 UTC +00:00], ["file_path", nil], ["preview", "In the lead-up to the release of the duo's latest..."], ["published", "2013-08-03T15:57:05Z"], ["source_id", 2], ["title", "Explore a cult classic with interactive 'Shaun of the Dead' screenplay"], ["updated", "2013-08-03T15:57:05Z"], ["updated_at", Sun, 04 Aug 2013 02:39:30 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584874/shaun-of-the-dead-screenplay-behind-the-scenes-download"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article72.html', "updated_at" = '2013-08-04 02:39:30.783673' WHERE "articles"."id" = 72[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "I guess today is the day for announcing the sale..."], ["published", "Sat, 03 Aug 2013 22:27:00 +0000"], ["source_id", 1], ["title", "IBT Media Buys Newsweek From IAC"], ["updated", "Sat, 03 Aug 2013 22:27:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/ibt-media-buys-newsweek/"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article73.html', "updated_at" = '2013-08-04 02:39:31.444711' WHERE "articles"."id" = 73[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", " Another seven days have come and gone, July has..."], ["published", "Sat, 03 Aug 2013 22:00:55 +0000"], ["source_id", 1], ["title", "CrunchWeek: MotoX Says Hello, Ridesharing Regulation Wars, More Google Surveillance Suspicions"], ["updated", "Sat, 03 Aug 2013 22:00:55 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/crunchweek-motox-ridesharing-privacy-concerns/"]]
+  [1m[36m (16.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article74.html', "updated_at" = '2013-08-04 02:39:31.473713' WHERE "articles"."id" = 74[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (29.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "President Obama’s administration has vetoed a decision by the United..."], ["published", "Sat, 03 Aug 2013 19:25:14 +0000"], ["source_id", 1], ["title", "Obama Administration Vetoes Ban On Certain iPhones And iPads"], ["updated", "Sat, 03 Aug 2013 19:25:14 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/obama-vetoes-apple-ban/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article75.html', "updated_at" = '2013-08-04 02:39:31.549717' WHERE "articles"."id" = 75[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "The New York Times is selling the Boston Globe and..."], ["published", "Sat, 03 Aug 2013 18:54:29 +0000"], ["source_id", 1], ["title", "The New York Times Company Sells The Boston Globe (And Related Properties) For $70M"], ["updated", "Sat, 03 Aug 2013 18:54:29 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/new-york-times-sells-boston-globe/"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article76.html', "updated_at" = '2013-08-04 02:39:31.564718' WHERE "articles"."id" = 76[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (8.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Steve Gillmor"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "The Gillmor Gang — Bret Taylor, Robert Scoble, Kevin Marks,..."], ["published", "Sat, 03 Aug 2013 17:00:42 +0000"], ["source_id", 1], ["title", "Gillmor Gang: What's Up Doc"], ["updated", "Sat, 03 Aug 2013 17:00:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/gillmor-gang-whats-up-doc/"]]
+  [1m[36m (11.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article77.html', "updated_at" = '2013-08-04 02:39:31.596720' WHERE "articles"."id" = 77[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Peter Yared and Cameron Olthuis"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Editor’s note: Peter Yared is the CTO/CIO and Cameron Olthius is..."], ["published", "Sat, 03 Aug 2013 15:00:04 +0000"], ["source_id", 1], ["title", "In Mastering Machine Intelligence, Google Rewrites Search Engine Rules"], ["updated", "Sat, 03 Aug 2013 15:00:04 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/won-the-seo-wars-google-has/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article78.html', "updated_at" = '2013-08-04 02:39:31.609720' WHERE "articles"."id" = 78[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Jon Evans"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "I spent much of this week at the Black Hat..."], ["published", "Sat, 03 Aug 2013 13:00:52 +0000"], ["source_id", 1], ["title", "The Business Of Fear"], ["updated", "Sat, 03 Aug 2013 13:00:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/the-business-of-fear/"]]
+  [1m[36m (7.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article79.html', "updated_at" = '2013-08-04 02:39:31.629722' WHERE "articles"."id" = 79[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", " The long-running trial of Wikileaks whistle-blower Pfc. Bradley Manning..."], ["published", "Sat, 03 Aug 2013 00:51:24 +0000"], ["source_id", 1], ["title", "A Look Into What The Manning Verdict Means For The Tech Industry"], ["updated", "Sat, 03 Aug 2013 00:51:24 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/a-look-into-what-the-manning-verdict-means-for-the-tech-industry/"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article80.html', "updated_at" = '2013-08-04 02:39:31.651723' WHERE "articles"."id" = 80[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "It became known in June that the GCHQ, Britain’s NSA..."], ["published", "Sat, 03 Aug 2013 00:04:10 +0000"], ["source_id", 1], ["title", "Verizon Reportedly Provides British Spy Agency Access To Its Undersea Internet Cables"], ["updated", "Sat, 03 Aug 2013 00:04:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/verizon-reportedly-provides-british-spy-agency-access-to-its-undersea-internet-cables/"]]
+  [1m[36m (8.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article81.html', "updated_at" = '2013-08-04 02:39:31.674724' WHERE "articles"."id" = 81[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "A dispute between CBS and Time Warner Cable over retransmission..."], ["published", "Fri, 02 Aug 2013 23:37:05 +0000"], ["source_id", 1], ["title", "CBS Blocks Time Warner Cable Subscribers From Watching Full Episodes On CBS.com"], ["updated", "Fri, 02 Aug 2013 23:37:05 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/cbs-blocks-time-warner-cable-subscribers-from-watching-full-episodes-on-cbs-com/"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article82.html', "updated_at" = '2013-08-04 02:39:31.696725' WHERE "articles"."id" = 82[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Gregory Ferenstein"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Good news for fans of the scientific method: the largest..."], ["published", "Fri, 02 Aug 2013 23:14:46 +0000"], ["source_id", 1], ["title", "University Of California Approves Major Open Access Policy To Make Research Free"], ["updated", "Fri, 02 Aug 2013 23:14:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/university-of-california-approves-major-open-access-policy-to-make-research-free/"]]
+  [1m[36m (12.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article83.html', "updated_at" = '2013-08-04 02:39:31.721727' WHERE "articles"."id" = 83[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Rip Empson"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Stephanie Hua spent the last ten years pushing for educational..."], ["published", "Fri, 02 Aug 2013 23:05:52 +0000"], ["source_id", 1], ["title", "Developed By Literacy Experts, Learn With Homer Launches On The iPad To Change How Kids Learn To Read"], ["updated", "Fri, 02 Aug 2013 23:05:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/developed-by-literacy-experts-learn-with-homer-launches-on-the-ipad-to-change-how-kids-learn-to-read/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article84.html', "updated_at" = '2013-08-04 02:39:31.735728' WHERE "articles"."id" = 84[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Thank you, Y Combinator, for not just investing in a..."], ["published", "Fri, 02 Aug 2013 22:15:42 +0000"], ["source_id", 1], ["title", "What's Asseta, A Marketplace For Used Manufacturing Equipment, Doing In Y Combinator? Um, Making Money"], ["updated", "Fri, 02 Aug 2013 22:15:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/whats-asseta-a-marketplace-for-used-manufacturing-equipment-doing-in-y-combinator-um-making-money/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article85.html', "updated_at" = '2013-08-04 02:39:31.749728' WHERE "articles"."id" = 85[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "AOL made another round of cuts today...."], ["published", "Fri, 02 Aug 2013 22:13:52 +0000"], ["source_id", 1], ["title", "AOL Lays Off Members Of AIM, Video Production, And HR Teams"], ["updated", "Fri, 02 Aug 2013 22:13:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/aol-lays-off-members-of-aim-video-production-and-hr-teams/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article86.html', "updated_at" = '2013-08-04 02:39:31.764729' WHERE "articles"."id" = 86[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "San Francisco-based startup Pixelpipe, which previously offered services for uploading photos..."], ["published", "Fri, 02 Aug 2013 22:06:00 +0000"], ["source_id", 1], ["title", "File Transfer & Syncing Service Pixelpipe Shuts Down – Acquisition In The Works?"], ["updated", "Fri, 02 Aug 2013 22:06:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/file-transfer-syncing-service-pixelpipe-shuts-down-acquisition-in-the-works/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article87.html', "updated_at" = '2013-08-04 02:39:31.778730' WHERE "articles"."id" = 87[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Lunch goers in San Francisco startup neighborhoods like SOMA and..."], ["published", "Fri, 02 Aug 2013 21:52:27 +0000"], ["source_id", 1], ["title", "EAT Club Suspends Food Bus Operations In SF After Getting A Cease And Desist From The City"], ["updated", "Fri, 02 Aug 2013 21:52:27 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/eat-club-suspends-food-bus-operations-in-sf-after-getting-a-cease-and-desist-from-the-city/"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article88.html', "updated_at" = '2013-08-04 02:39:31.793731' WHERE "articles"."id" = 88[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Leena Rao"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "On this week’s episode of Ask A VC, we hosted..."], ["published", "Fri, 02 Aug 2013 21:35:44 +0000"], ["source_id", 1], ["title", "Ask A VC: Greylock's Josh Elman On SoLoMo, Growth Hacking And More"], ["updated", "Fri, 02 Aug 2013 21:35:44 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/ask-a-vc-greylocks-josh-elman-on-solomo-growth-hacking-and-more/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article89.html', "updated_at" = '2013-08-04 02:39:31.807732' WHERE "articles"."id" = 89[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Frederic Lardinois"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Google today announced a number of updates to YouTube that..."], ["published", "Fri, 02 Aug 2013 21:12:28 +0000"], ["source_id", 1], ["title", "YouTube Expands Live Streaming To Channels With Just 100 Subscribers, Opens Custom Thumbnails & Merchandise Links To All"], ["updated", "Fri, 02 Aug 2013 21:12:28 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/youtube-expands-live-streaming-to-channels-with-just-100-subscribers-opens-custom-thumbnails-merchandise-links-to-all/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article90.html', "updated_at" = '2013-08-04 02:39:31.822733' WHERE "articles"."id" = 90[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "Travel startup WeHostels wants to make it easier for people..."], ["published", "Fri, 02 Aug 2013 20:50:10 +0000"], ["source_id", 1], ["title", "Travel Startup WeHostels Goes Big On Mobile With An App For Booking Hostels On The iPad"], ["updated", "Fri, 02 Aug 2013 20:50:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/wehostels-ipad-app/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article91.html', "updated_at" = '2013-08-04 02:39:31.836733' WHERE "articles"."id" = 91[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["file_path", nil], ["preview", "According to a report in CNET today, the FBI wants..."], ["published", "Fri, 02 Aug 2013 20:46:46 +0000"], ["source_id", 1], ["title", "The FBI May Be Working To Install Surveillance Taps On Major US Telecom Carriers"], ["updated", "Fri, 02 Aug 2013 20:46:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:39:31 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/the-fbi-may-be-working-to-install-surveillance-taps-on-major-us-telecom-carriers/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article92.html', "updated_at" = '2013-08-04 02:39:31.850734' WHERE "articles"."id" = 92[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 22:39:44 -0400
+Processing by ArticlesController#index as HTML
+  [1m[36mArticle Load (111.0ms)[0m  [1mSELECT "articles".* FROM "articles" [0m
+  Rendered articles/index.html.erb within layouts/application (76.0ms)
+Completed 200 OK in 259ms (Views: 141.0ms | ActiveRecord: 111.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /scaffolds.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /articles.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /subscriptions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /tests.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /sources.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /users.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /articles.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /subscriptions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /sources.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /tests.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 22:39:49 -0400
+Served asset /application.js - 304 Not Modified (1ms)
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (2.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:42:34 UTC +00:00], ["file_path", nil], ["preview", "\"Call your representative!\" We've all heard it before, but actually..."], ["published", "2013-08-04T01:13:04Z"], ["source_id", 2], ["title", "Ping elected officials every time your commute sucks with the 'I'm Stuck' app"], ["updated", "2013-08-04T01:13:04Z"], ["updated_at", Sun, 04 Aug 2013 02:42:34 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article93.html', "updated_at" = '2013-08-04 02:42:34.186163' WHERE "articles"."id" = 93[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "T.C. Sottek"], ["created_at", Sun, 04 Aug 2013 02:42:36 UTC +00:00], ["file_path", nil], ["preview", "The International Business Times has announced that it will acquire..."], ["published", "2013-08-03T23:08:30Z"], ["source_id", 2], ["title", "Newsweek sold to business news website less than a year after going digital"], ["updated", "2013-08-03T23:08:30Z"], ["updated_at", Sun, 04 Aug 2013 02:42:36 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article94.html', "updated_at" = '2013-08-04 02:42:36.642304' WHERE "articles"."id" = 94[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:42:37 UTC +00:00], ["file_path", nil], ["preview", "If you've spent any length of time on the internet,..."], ["published", "2013-08-03T22:47:01Z"], ["source_id", 2], ["title", "See the sights of Tokyo in this 150-gigapixel panorama"], ["updated", "2013-08-03T22:47:01Z"], ["updated_at", Sun, 04 Aug 2013 02:42:37 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article95.html', "updated_at" = '2013-08-04 02:42:37.954379' WHERE "articles"."id" = 95[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:42:39 UTC +00:00], ["file_path", nil], ["preview", "High-tech Japanese toilets are vulnerable to attack from their manufacturer's..."], ["published", "2013-08-03T20:52:02Z"], ["source_id", 2], ["title", "Japanese toilet users vulnerable to Bluetooth bidet assaults"], ["updated", "2013-08-03T20:52:02Z"], ["updated_at", Sun, 04 Aug 2013 02:42:39 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability"]]
+  [1m[36m (4.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article96.html', "updated_at" = '2013-08-04 02:42:39.799484' WHERE "articles"."id" = 96[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:42:41 UTC +00:00], ["file_path", nil], ["preview", "The Obama administration has stepped in today to veto an..."], ["published", "2013-08-03T18:58:36Z"], ["source_id", 2], ["title", "President Obama vetoes Samsung patent ban on iPhone 4 and select iPads"], ["updated", "2013-08-03T18:58:36Z"], ["updated_at", Sun, 04 Aug 2013 02:42:41 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article97.html', "updated_at" = '2013-08-04 02:42:41.247567' WHERE "articles"."id" = 97[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:42:43 UTC +00:00], ["file_path", nil], ["preview", "After a poor opening in the US, The Wolverine has..."], ["published", "2013-08-03T18:29:04Z"], ["source_id", 2], ["title", "'Waterworld' was a massive flop, right?"], ["updated", "2013-08-03T18:29:04Z"], ["updated_at", Sun, 04 Aug 2013 02:42:43 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585088/waterworld-flop-statistics"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article98.html', "updated_at" = '2013-08-04 02:42:43.377689' WHERE "articles"."id" = 98[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Dante D'Orazio"], ["created_at", Sun, 04 Aug 2013 02:42:45 UTC +00:00], ["file_path", nil], ["preview", "Some scientists' fears may be coming true. The National Science..."], ["published", "2013-08-03T18:02:07Z"], ["source_id", 2], ["title", "National Science Foundation dodges Congressional politics by canceling new political science research "], ["updated", "2013-08-03T18:02:07Z"], ["updated_at", Sun, 04 Aug 2013 02:42:45 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585464/nsf-dodges-congressional-politics-by-canceling-2013-political-science-research-funding"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article99.html', "updated_at" = '2013-08-04 02:42:45.518811' WHERE "articles"."id" = 99[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Verge Forums"], ["created_at", Sun, 04 Aug 2013 02:42:51 UTC +00:00], ["file_path", nil], ["preview", " Continue reading… ..."], ["published", "2013-08-03T17:23:06Z"], ["source_id", 2], ["title", "Share your favorite unsung Android apps - Verge Forums"], ["updated", "2013-08-03T17:23:06Z"], ["updated_at", Sun, 04 Aug 2013 02:42:51 UTC +00:00], ["url", "http://www.theverge.com/2013/8/1/4578078/what-are-the-lesser-known-apps-and-widgets-you-use"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article100.html', "updated_at" = '2013-08-04 02:42:51.281141' WHERE "articles"."id" = 100[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Joshua Kopstein"], ["created_at", Sun, 04 Aug 2013 02:42:52 UTC +00:00], ["file_path", nil], ["preview", "Unless you're one of its many evangelists, you probably still..."], ["published", "2013-08-03T16:30:01Z"], ["source_id", 2], ["title", "Bitcoin suitcase eats your pocket change, spits out digital currency"], ["updated", "2013-08-03T16:30:01Z"], ["updated_at", Sun, 04 Aug 2013 02:42:52 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4585220/bitcoin-suitcase-eats-your-pocket-change-spits-out-digital-currency"]]
+  [1m[36m (10.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article101.html', "updated_at" = '2013-08-04 02:42:52.815229' WHERE "articles"."id" = 101[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.theverge.com/') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Aaron Souppouris"], ["created_at", Sun, 04 Aug 2013 02:42:55 UTC +00:00], ["file_path", nil], ["preview", "In the lead-up to the release of the duo's latest..."], ["published", "2013-08-03T15:57:05Z"], ["source_id", 2], ["title", "Explore a cult classic with interactive 'Shaun of the Dead' screenplay"], ["updated", "2013-08-03T15:57:05Z"], ["updated_at", Sun, 04 Aug 2013 02:42:55 UTC +00:00], ["url", "http://www.theverge.com/2013/8/3/4584874/shaun-of-the-dead-screenplay-behind-the-scenes-download"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article102.html', "updated_at" = '2013-08-04 02:42:55.608388' WHERE "articles"."id" = 102[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "I guess today is the day for announcing the sale..."], ["published", "Sat, 03 Aug 2013 22:27:00 +0000"], ["source_id", 1], ["title", "IBT Media Buys Newsweek From IAC"], ["updated", "Sat, 03 Aug 2013 22:27:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/ibt-media-buys-newsweek/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article103.html', "updated_at" = '2013-08-04 02:42:57.118475' WHERE "articles"."id" = 103[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", " Another seven days have come and gone, July has..."], ["published", "Sat, 03 Aug 2013 22:00:55 +0000"], ["source_id", 1], ["title", "CrunchWeek: MotoX Says Hello, Ridesharing Regulation Wars, More Google Surveillance Suspicions"], ["updated", "Sat, 03 Aug 2013 22:00:55 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/crunchweek-motox-ridesharing-privacy-concerns/"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article104.html', "updated_at" = '2013-08-04 02:42:57.166478' WHERE "articles"."id" = 104[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "President Obama’s administration has vetoed a decision by the United..."], ["published", "Sat, 03 Aug 2013 19:25:14 +0000"], ["source_id", 1], ["title", "Obama Administration Vetoes Ban On Certain iPhones And iPads"], ["updated", "Sat, 03 Aug 2013 19:25:14 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/obama-vetoes-apple-ban/"]]
+  [1m[36m (8.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article105.html', "updated_at" = '2013-08-04 02:42:57.187479' WHERE "articles"."id" = 105[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "The New York Times is selling the Boston Globe and..."], ["published", "Sat, 03 Aug 2013 18:54:29 +0000"], ["source_id", 1], ["title", "The New York Times Company Sells The Boston Globe (And Related Properties) For $70M"], ["updated", "Sat, 03 Aug 2013 18:54:29 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/new-york-times-sells-boston-globe/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article106.html', "updated_at" = '2013-08-04 02:42:57.200480' WHERE "articles"."id" = 106[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Steve Gillmor"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "The Gillmor Gang — Bret Taylor, Robert Scoble, Kevin Marks,..."], ["published", "Sat, 03 Aug 2013 17:00:42 +0000"], ["source_id", 1], ["title", "Gillmor Gang: What's Up Doc"], ["updated", "Sat, 03 Aug 2013 17:00:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/gillmor-gang-whats-up-doc/"]]
+  [1m[36m (17.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article107.html', "updated_at" = '2013-08-04 02:42:57.230481' WHERE "articles"."id" = 107[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Peter Yared and Cameron Olthuis"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Editor’s note: Peter Yared is the CTO/CIO and Cameron Olthius is..."], ["published", "Sat, 03 Aug 2013 15:00:04 +0000"], ["source_id", 1], ["title", "In Mastering Machine Intelligence, Google Rewrites Search Engine Rules"], ["updated", "Sat, 03 Aug 2013 15:00:04 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/won-the-seo-wars-google-has/"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article108.html', "updated_at" = '2013-08-04 02:42:57.251482' WHERE "articles"."id" = 108[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Jon Evans"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "I spent much of this week at the Black Hat..."], ["published", "Sat, 03 Aug 2013 13:00:52 +0000"], ["source_id", 1], ["title", "The Business Of Fear"], ["updated", "Sat, 03 Aug 2013 13:00:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/03/the-business-of-fear/"]]
+  [1m[36m (10.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article109.html', "updated_at" = '2013-08-04 02:42:57.273484' WHERE "articles"."id" = 109[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Colleen Taylor"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", " The long-running trial of Wikileaks whistle-blower Pfc. Bradley Manning..."], ["published", "Sat, 03 Aug 2013 00:51:24 +0000"], ["source_id", 1], ["title", "A Look Into What The Manning Verdict Means For The Tech Industry"], ["updated", "Sat, 03 Aug 2013 00:51:24 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/a-look-into-what-the-manning-verdict-means-for-the-tech-industry/"]]
+  [1m[36m (9.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article110.html', "updated_at" = '2013-08-04 02:42:57.296485' WHERE "articles"."id" = 110[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "It became known in June that the GCHQ, Britain’s NSA..."], ["published", "Sat, 03 Aug 2013 00:04:10 +0000"], ["source_id", 1], ["title", "Verizon Reportedly Provides British Spy Agency Access To Its Undersea Internet Cables"], ["updated", "Sat, 03 Aug 2013 00:04:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/verizon-reportedly-provides-british-spy-agency-access-to-its-undersea-internet-cables/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article111.html', "updated_at" = '2013-08-04 02:42:57.309486' WHERE "articles"."id" = 111[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "A dispute between CBS and Time Warner Cable over retransmission..."], ["published", "Fri, 02 Aug 2013 23:37:05 +0000"], ["source_id", 1], ["title", "CBS Blocks Time Warner Cable Subscribers From Watching Full Episodes On CBS.com"], ["updated", "Fri, 02 Aug 2013 23:37:05 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/cbs-blocks-time-warner-cable-subscribers-from-watching-full-episodes-on-cbs-com/"]]
+  [1m[36m (7.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article112.html', "updated_at" = '2013-08-04 02:42:57.330487' WHERE "articles"."id" = 112[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Gregory Ferenstein"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Good news for fans of the scientific method: the largest..."], ["published", "Fri, 02 Aug 2013 23:14:46 +0000"], ["source_id", 1], ["title", "University Of California Approves Major Open Access Policy To Make Research Free"], ["updated", "Fri, 02 Aug 2013 23:14:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/university-of-california-approves-major-open-access-policy-to-make-research-free/"]]
+  [1m[36m (11.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article113.html', "updated_at" = '2013-08-04 02:42:57.354488' WHERE "articles"."id" = 113[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Rip Empson"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Stephanie Hua spent the last ten years pushing for educational..."], ["published", "Fri, 02 Aug 2013 23:05:52 +0000"], ["source_id", 1], ["title", "Developed By Literacy Experts, Learn With Homer Launches On The iPad To Change How Kids Learn To Read"], ["updated", "Fri, 02 Aug 2013 23:05:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/developed-by-literacy-experts-learn-with-homer-launches-on-the-ipad-to-change-how-kids-learn-to-read/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article114.html', "updated_at" = '2013-08-04 02:42:57.367489' WHERE "articles"."id" = 114[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Thank you, Y Combinator, for not just investing in a..."], ["published", "Fri, 02 Aug 2013 22:15:42 +0000"], ["source_id", 1], ["title", "What's Asseta, A Marketplace For Used Manufacturing Equipment, Doing In Y Combinator? Um, Making Money"], ["updated", "Fri, 02 Aug 2013 22:15:42 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/whats-asseta-a-marketplace-for-used-manufacturing-equipment-doing-in-y-combinator-um-making-money/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article115.html', "updated_at" = '2013-08-04 02:42:57.381490' WHERE "articles"."id" = 115[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Anthony Ha"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "AOL made another round of cuts today...."], ["published", "Fri, 02 Aug 2013 22:13:52 +0000"], ["source_id", 1], ["title", "AOL Lays Off Members Of AIM, Video Production, And HR Teams"], ["updated", "Fri, 02 Aug 2013 22:13:52 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/aol-lays-off-members-of-aim-video-production-and-hr-teams/"]]
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article116.html', "updated_at" = '2013-08-04 02:42:57.395491' WHERE "articles"."id" = 116[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (0.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Sarah Perez"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "San Francisco-based startup Pixelpipe, which previously offered services for uploading photos..."], ["published", "Fri, 02 Aug 2013 22:06:00 +0000"], ["source_id", 1], ["title", "File Transfer & Syncing Service Pixelpipe Shuts Down – Acquisition In The Works?"], ["updated", "Fri, 02 Aug 2013 22:06:00 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/file-transfer-syncing-service-pixelpipe-shuts-down-acquisition-in-the-works/"]]
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article117.html', "updated_at" = '2013-08-04 02:42:57.408491' WHERE "articles"."id" = 117[0m
+  [1m[35m (0.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Lunch goers in San Francisco startup neighborhoods like SOMA and..."], ["published", "Fri, 02 Aug 2013 21:52:27 +0000"], ["source_id", 1], ["title", "EAT Club Suspends Food Bus Operations In SF After Getting A Cease And Desist From The City"], ["updated", "Fri, 02 Aug 2013 21:52:27 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/eat-club-suspends-food-bus-operations-in-sf-after-getting-a-cease-and-desist-from-the-city/"]]
+  [1m[36m (99.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article118.html', "updated_at" = '2013-08-04 02:42:57.520498' WHERE "articles"."id" = 118[0m
+  [1m[35m (50.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (1.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Leena Rao"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "On this week’s episode of Ask A VC, we hosted..."], ["published", "Fri, 02 Aug 2013 21:35:44 +0000"], ["source_id", 1], ["title", "Ask A VC: Greylock's Josh Elman On SoLoMo, Growth Hacking And More"], ["updated", "Fri, 02 Aug 2013 21:35:44 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/ask-a-vc-greylocks-josh-elman-on-solomo-growth-hacking-and-more/"]]
+  [1m[36m (58.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article119.html', "updated_at" = '2013-08-04 02:42:57.641505' WHERE "articles"."id" = 119[0m
+  [1m[35m (84.0ms)[0m  COMMIT
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Frederic Lardinois"], ["created_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["file_path", nil], ["preview", "Google today announced a number of updates to YouTube that..."], ["published", "Fri, 02 Aug 2013 21:12:28 +0000"], ["source_id", 1], ["title", "YouTube Expands Live Streaming To Channels With Just 100 Subscribers, Opens Custom Thumbnails & Merchandise Links To All"], ["updated", "Fri, 02 Aug 2013 21:12:28 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:57 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/youtube-expands-live-streaming-to-channels-with-just-100-subscribers-opens-custom-thumbnails-merchandise-links-to-all/"]]
+  [1m[36m (188.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article120.html', "updated_at" = '2013-08-04 02:42:57.928521' WHERE "articles"."id" = 120[0m
+  [1m[35m (121.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Ryan Lawler"], ["created_at", Sun, 04 Aug 2013 02:42:58 UTC +00:00], ["file_path", nil], ["preview", "Travel startup WeHostels wants to make it easier for people..."], ["published", "Fri, 02 Aug 2013 20:50:10 +0000"], ["source_id", 1], ["title", "Travel Startup WeHostels Goes Big On Mobile With An App For Booking Hostels On The iPad"], ["updated", "Fri, 02 Aug 2013 20:50:10 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:58 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/wehostels-ipad-app/"]]
+  [1m[36m (2.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (1.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article121.html', "updated_at" = '2013-08-04 02:42:58.063529' WHERE "articles"."id" = 121[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mSource Load (1.0ms)[0m  SELECT "sources".* FROM "sources" WHERE (url = 'http://www.techcrunch.com') LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "source_id", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["author", "Alex Wilhelm"], ["created_at", Sun, 04 Aug 2013 02:42:58 UTC +00:00], ["file_path", nil], ["preview", "According to a report in CNET today, the FBI wants..."], ["published", "Fri, 02 Aug 2013 20:46:46 +0000"], ["source_id", 1], ["title", "The FBI May Be Working To Install Surveillance Taps On Major US Telecom Carriers"], ["updated", "Fri, 02 Aug 2013 20:46:46 +0000"], ["updated_at", Sun, 04 Aug 2013 02:42:58 UTC +00:00], ["url", "http://techcrunch.com/2013/08/02/the-fbi-may-be-working-to-install-surveillance-taps-on-major-us-telecom-carriers/"]]
+  [1m[36m (8.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article122.html', "updated_at" = '2013-08-04 02:42:58.085530' WHERE "articles"."id" = 122[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 22:43:32 -0400
+Processing by ArticlesController#index as HTML
+  [1m[35mArticle Load (4.0ms)[0m  SELECT "articles".* FROM "articles" 
+  Rendered articles/index.html.erb within layouts/application (116.0ms)
+Completed 200 OK in 197ms (Views: 185.0ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /articles.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /scaffolds.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /sources.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /subscriptions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /tests.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:43:36 -0400
+Served asset /users.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /jquery.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /articles.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /sources.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /subscriptions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /tests.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /users.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 22:43:37 -0400
+Served asset /application.js - 304 Not Modified (1ms)
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (3.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (5.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+
+
+Started GET "/articles/114" for 127.0.0.1 at 2013-08-03 22:52:35 -0400
+Processing by ArticlesController#show as HTML
+  Parameters: {"id"=>"114"}
+  [1m[36mArticle Load (4.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE "articles"."id" = $1 LIMIT 1[0m  [["id", "114"]]
+  Rendered articles/show.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 39ms (Views: 33.0ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /articles.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /sources.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /scaffolds.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /subscriptions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /tests.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /users.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /articles.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /sources.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /subscriptions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /tests.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:36 -0400
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 22:52:37 -0400
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/article114.html" for 127.0.0.1 at 2013-08-03 22:52:43 -0400
+
+ActionController::RoutingError (No route matches [GET] "/article114.html"):
+  actionpack (3.2.13) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.13) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.13) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.5) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.5) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.13) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.5) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.13) lib/rails/engine.rb:479:in `call'
+  railties (3.2.13) lib/rails/application.rb:223:in `call'
+  rack (1.4.5) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.13) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.5) lib/rack/handler/webrick.rb:59:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered c:/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.0ms)
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = NULL) LIMIT 1
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads') LIMIT 1[0m
+Connecting to database specified by database.yml
+  [1m[36mArticle Load (2.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585998/im-stuck-app-email-representatives-congress-transportation-infrastructure') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4586214/newsweek-sold-to-international-business-times') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584928/tokyo-150-gigapixel-panorama') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584980/inax-satis-bluetooth-toilet-android-app-vulnerability') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585088/waterworld-flop-statistics') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585464/nsf-dodges-congressional-politics-by-canceling-2013-political-science-research-funding') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/1/4578078/what-are-the-lesser-known-apps-and-widgets-you-use') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4585220/bitcoin-suitcase-eats-your-pocket-change-spits-out-digital-currency') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://www.theverge.com/2013/8/3/4584874/shaun-of-the-dead-screenplay-behind-the-scenes-download') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/ibt-media-buys-newsweek/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/crunchweek-motox-ridesharing-privacy-concerns/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/obama-vetoes-apple-ban/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/new-york-times-sells-boston-globe/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/gillmor-gang-whats-up-doc/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/won-the-seo-wars-google-has/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/03/the-business-of-fear/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/a-look-into-what-the-manning-verdict-means-for-the-tech-industry/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/verizon-reportedly-provides-british-spy-agency-access-to-its-undersea-internet-cables/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/cbs-blocks-time-warner-cable-subscribers-from-watching-full-episodes-on-cbs-com/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/university-of-california-approves-major-open-access-policy-to-make-research-free/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/developed-by-literacy-experts-learn-with-homer-launches-on-the-ipad-to-change-how-kids-learn-to-read/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/whats-asseta-a-marketplace-for-used-manufacturing-equipment-doing-in-y-combinator-um-making-money/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/aol-lays-off-members-of-aim-video-production-and-hr-teams/') LIMIT 1
+  [1m[36mArticle Load (0.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/file-transfer-syncing-service-pixelpipe-shuts-down-acquisition-in-the-works/') LIMIT 1[0m
+  [1m[35mArticle Load (0.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/eat-club-suspends-food-bus-operations-in-sf-after-getting-a-cease-and-desist-from-the-city/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/ask-a-vc-greylocks-josh-elman-on-solomo-growth-hacking-and-more/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/youtube-expands-live-streaming-to-channels-with-just-100-subscribers-opens-custom-thumbnails-merchandise-links-to-all/') LIMIT 1
+  [1m[36mArticle Load (1.0ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/wehostels-ipad-app/') LIMIT 1[0m
+  [1m[35mArticle Load (1.0ms)[0m  SELECT "articles".* FROM "articles" WHERE (url = 'http://techcrunch.com/2013/08/02/the-fbi-may-be-working-to-install-surveillance-taps-on-major-us-telecom-carriers/') LIMIT 1
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Processing by ArticlesController#index as HTML
+  [1m[35mArticle Load (3.0ms)[0m  SELECT "articles".* FROM "articles" 
+  Rendered articles/index.html.erb within layouts/application (93.0ms)
+Completed 200 OK in 131ms (Views: 122.0ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /articles.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /sources.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /scaffolds.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /subscriptions.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /tests.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /users.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /articles.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sources.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:36 -0400
+Served asset /sources.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/subscriptions.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:37 -0400
+Served asset /subscriptions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:37 -0400
+Served asset /tests.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:37 -0400
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 22:56:37 -0400
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/public/assets/articles/article40.html" for 127.0.0.1 at 2013-08-03 22:56:55 -0400
+
+ActionController::RoutingError (No route matches [GET] "/public/assets/articles/article40.html"):
+  actionpack (3.2.13) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.13) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.13) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.5) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.5) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.13) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.5) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.13) lib/rails/engine.rb:479:in `call'
+  railties (3.2.13) lib/rails/application.rb:223:in `call'
+  rack (1.4.5) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.13) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.5) lib/rack/handler/webrick.rb:59:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered c:/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.0ms)
+
+
+Started GET "/public/" for 127.0.0.1 at 2013-08-03 22:57:04 -0400
+
+ActionController::RoutingError (No route matches [GET] "/public"):
+  actionpack (3.2.13) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.13) lib/rails/rack/logger.rb:32:in `call_app'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `block in call'
+  activesupport (3.2.13) lib/active_support/tagged_logging.rb:22:in `tagged'
+  railties (3.2.13) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.5) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.5) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.13) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.5) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.13) lib/action_dispatch/middleware/static.rb:63:in `call'
+  railties (3.2.13) lib/rails/engine.rb:479:in `call'
+  railties (3.2.13) lib/rails/application.rb:223:in `call'
+  rack (1.4.5) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.13) lib/rails/rack/log_tailer.rb:17:in `call'
+  rack (1.4.5) lib/rack/handler/webrick.rb:59:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  c:/RailsInstaller/Ruby1.9.3/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered c:/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.0ms)
