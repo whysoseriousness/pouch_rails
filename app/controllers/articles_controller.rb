@@ -8,14 +8,16 @@ class ArticlesController < ApplicationController
      	@subscriptions.each do |s|
 			@articles.push({name: s.source.name, feed: s.source.articles})
 		end
+		respond_to do |format|
+			format.html # index.html.erb
+			format.json { render json: @articles }
+		end
     else
-      @articles = Article.all
-    end
-
-    respond_to do |format|
-		format.html # index.html.erb
-		
-		format.json { render json:[{name: "all", feed: @articles}] }
+		@articles = Article.all
+		respond_to do |format|
+			format.html # index.html.erb
+			format.json { render json:[{name: "all", feed: @articles}] }
+		end
     end
   end
 
