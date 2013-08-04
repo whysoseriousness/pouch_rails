@@ -8,20 +8,23 @@ namespace :jm_scrape do
         source_url = options.delete(:source_url)
 
         # TODO: first or create
-        @source = Source.where("url = ?", source_url).first
-        @article = @source.articles.new(options)
-       
-        if @article.save #{}"/public/assets/articles/filesavingtest.txt"
-            file_name = "article#{@article.id}.html"
-            file_path = Rails.root.join('public', 'assets', 'articles', file_name)
-            @article.file_path = file_name
-            if @article.save
-                File.open(file_path, "w") { |file| file.write page_content }
+        art = Article.where("url = ?", options["url"]).first
+        unless art
+            @source = Source.where("url = ?", source_url).first
+            @article = @source.articles.new(options)
+           
+            if @article.save #{}"/public/assets/articles/filesavingtest.txt"
+                file_name = "article#{@article.id}.html"
+                file_path = Rails.root.join('public', 'assets', 'articles', file_name)
+                @article.file_path = file_name
+                if @article.save
+                    File.open(file_path, "w") { |file| file.write page_content }
+                else
+                    puts "article did not save"
+                end
             else
                 puts "article did not save"
             end
-        else
-            puts "article did not save"
         end
 
     end

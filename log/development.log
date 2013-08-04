@@ -4586,3 +4586,15 @@ Processing by ArticlesController#index as JSON
   [1m[36mArticle Load (0.2ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 1[0m
   [1m[35mArticle Load (0.4ms)[0m  SELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 2
 Completed 200 OK in 91ms (Views: 17.9ms | ActiveRecord: 10.2ms)
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 22:20:13 -0400
+Processing by ArticlesController#index as JSON
+  Parameters: {"user"=>{"email"=>"test@user.com", "password"=>"[FILTERED]"}, "article"=>{}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users" WHERE (email='test@user.com') LIMIT 1[0m
+  [1m[35mSubscription Load (0.3ms)[0m  SELECT "subscriptions".* FROM "subscriptions" WHERE "subscriptions"."user_id" = 1
+  [1m[36mSource Load (0.6ms)[0m  [1mSELECT "sources".* FROM "sources" WHERE "sources"."id" = 1 LIMIT 1[0m
+  [1m[35mSource Load (0.3ms)[0m  SELECT "sources".* FROM "sources" WHERE "sources"."id" = 2 LIMIT 1
+  [1m[36mArticle Load (0.4ms)[0m  [1mSELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 1[0m
+  [1m[35mArticle Load (0.4ms)[0m  SELECT "articles".* FROM "articles" WHERE "articles"."source_id" = 2
+Completed 200 OK in 10ms (Views: 3.5ms | ActiveRecord: 2.4ms)
