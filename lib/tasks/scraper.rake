@@ -45,6 +45,13 @@ namespace :scrape do
 				end
 			end
 			
+			node = page_content.at('em')
+			unless node.nil?
+				for em in node.xpath('//em/text()')
+					em.content = ' ' + em.content + ' '
+				end
+			end
+			
 			page_content = format_content(page_content)
 			
 			#puts "Title: #{title}"
