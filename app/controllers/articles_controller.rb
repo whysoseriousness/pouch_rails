@@ -3,18 +3,21 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def index
     if(params[:user])
-      @subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
+      @user = User.where("email=?", params[:user][:email]).first
+      @subscriptions = @user.subscriptions
       @articles = []
+      # time = params[:time]
+      #TODO: parse datetime
       @subscriptions.each do |s|
-        @articles.push({name: s.name, feed: s.source.articles})
+        @articles.push({name: s.source.name, feed: s.source.articles})
       end
     else
-      @articles = [{name: "all", feed: Article.all}]
+      @articles = Article.all
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @articles }
+      format.json { render json: [{name: "all", feed: @articles }] }
     end
   end
 
@@ -89,3 +92,18 @@ class ArticlesController < ApplicationController
     end
   end
 end
+
+private
+  def parse_datetime(str)
+    year = str.match(/^[0-9]*/).to_s
+    month = str.match(/-[0-9]{2}-/).to_s.gsub("-","").to_s
+    day = str.match(/-[0-9]{2}\|/).to_s.gsub("-","").gsub("|","").to_s
+
+    hour = str.match(/\|[0-9]{2}:/).to_s.gsub(":","").gsub("|","").to_s
+    minute = str.match(/:[0-9]{2}:/).to_s.gsub(":","").to_s
+    second = str.match(/:[0-9]{2}\|/).to_s.gsub(":","").gsub("|","").to_s
+
+    offset = str.match(/\|[0-9]{0,2}\z/).to_s.gsub("|","").to_s
+
+    d = Time.new(year, month, day, hour, minute)
+  end
