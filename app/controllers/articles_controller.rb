@@ -2,7 +2,15 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all
+    if(params[:user])
+      @subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
+      @articles = []
+      @subscriptions.each do |s|
+        @articles.push(s.source.articles)
+      end
+    else
+      @articles = Article.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

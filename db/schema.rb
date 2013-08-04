@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130803215050) do
+ActiveRecord::Schema.define(:version => 20130804014312) do
 
   create_table "articles", :force => true do |t|
     t.text     "url"
@@ -23,6 +23,21 @@ ActiveRecord::Schema.define(:version => 20130803215050) do
     t.string   "published"
     t.string   "updated"
     t.string   "author"
+    t.integer  "source_id"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "source_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tests", :force => true do |t|
@@ -32,6 +47,8 @@ ActiveRecord::Schema.define(:version => 20130803215050) do
   end
 
   create_table "users", :force => true do |t|
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
@@ -42,8 +59,6 @@ ActiveRecord::Schema.define(:version => 20130803215050) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

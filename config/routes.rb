@@ -1,8 +1,17 @@
 PouchRails::Application.routes.draw do
+  devise_for :users
+
+  resources :users
+
+
+  resources :subscriptions
+
+
+  resources :sources
+
+
   resources :articles
 
-
-  devise_for :users
 
 
   resources :tests
