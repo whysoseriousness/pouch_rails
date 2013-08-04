@@ -1,7 +1,5 @@
-
-
 namespace :scrape do
-	task :verge_list do
+	task :verge_list => :environment do
 		require 'rubygems'
 		require 'nokogiri'
 		require 'open-uri'
@@ -29,10 +27,10 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) #Before: .entry-content
 			
-			puts "#{title} - #{published} (last updated #{updated})"
-			puts "By #{author}"
-			puts preview
-			puts page_url
+			#puts "#{title} - #{published} (last updated #{updated})"
+			#puts "By #{author}"
+			#puts preview
+			#puts page_url
 			#puts page_content
 			
 			create_article({url: page_url,
@@ -53,19 +51,24 @@ namespace :scrape do
 		return html
 	end
 	
-	task :verge_page do
-		require 'rubygems'
-		require 'nokogiri'
-		require 'open-uri'
-		
-		page_url = "http://www.theverge.com/2013/8/3/4585700/president-obama-vetoes-samsung-patent-ban-on-iphone-4-and-select-ipads"
-		
-		page_doc = Nokogiri::HTML(open(page_url))
-		page_content = page_doc.at_css(".entry-content")
-		page_content.search('//text()').each do |t|
-			t.replace(t.content.strip)
-		end
-		
-		File.open('C:\Users\Gateway\Desktop\verge_page_output.html', 'w') { |file| file.write(page_content) }
-	end
+	def create_article(options = {})
+        #{url, file_path, title, preview, updated, author}
+        page_content = options.delete(:page_content)
+
+        @article = Article.new(options)
+       
+        if @article.save #{}"/public/assets/articles/filesavingtest.txt"
+            file_name = "article#{@article.id}.html"
+            file_path = Rails.root.join('public', 'assets', 'articles', file_name)
+            @article.file_path = file_path
+            if @article.save
+                File.open(file_path, "w") { |file| file.write page_content }
+            else
+                puts "article did not save"
+            end
+        else
+            puts "article did not save"
+        end
+
+    end
 end

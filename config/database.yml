@@ -1,7 +1,0 @@
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: pouch_rails_development
-  pool: 5
-  username: joshuamartin
-  password:
