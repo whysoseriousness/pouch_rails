@@ -120,8 +120,29 @@ namespace :scrape do
 	end
 	
 	def format_content(page_content)
+		#Remove links
 		page_content.css("a").each do |a|
 				a.replace(a.content)
+		end
+		
+		#Remove images
+		page_content.search('.//img').remove
+		page_content.search('.//frame').remove
+		
+		node = page_content.at('img')
+		unless node.nil?
+			node.children.each do |child|
+				node.parent << child
+			end
+			node.remove
+		end
+		
+		node = page_content.at('iframe')
+		unless node.nil?
+			node.children.each do |child|
+				node.parent << child
+			end
+			node.remove
 		end
 		
 		page_content = page_content.to_s
