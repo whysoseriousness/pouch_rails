@@ -7,7 +7,8 @@ namespace :jm_scrape do
 
         source_url = options.delete(:source_url)
 
-        @source = Source.where("url = ?", source_url)
+        # TODO: first or create
+        @source = Source.where("url = ?", source_url).first
         @article = @source.articles.new(options)
        
         if @article.save #{}"/public/assets/articles/filesavingtest.txt"
