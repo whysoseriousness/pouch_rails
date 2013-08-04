@@ -3,19 +3,19 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def index
     if(params[:user])
-		@articles = params[:user].to_s
       	@subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
       	@articles = []
      	@subscriptions.each do |s|
-			@articles.push({name: s.name, feed: s.source.articles})
+			@articles.push({name: s.source.name, feed: s.source.articles})
 		end
     else
       @articles = Article.all
     end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json:[{name: "all", feed: @articles}] }
+		format.html # index.html.erb
+		
+		format.json { render json:[{name: "all", feed: @articles}] }
     end
   end
 
