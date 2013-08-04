@@ -33,13 +33,31 @@ namespace :scrape do
 			#puts page_url
 			#puts page_content
 			
-			create_article({url: page_url,
+			options = {url: page_url,
 							title: title,
 							published: published,
 							updated: updated,
 							author: author,
 							preview: preview,
-							page_content: page_content})
+							page_content: page_content}
+			 #{url, file_path, title, preview, updated, author}
+			 
+			page_content = options.delete(:page_content)
+
+			@article = Article.new(options)
+		   
+			if @article.save #{}"/public/assets/articles/filesavingtest.txt"
+				file_name = "article#{@article.id}.html"
+				file_path = Rails.root.join('public', 'assets', 'articles', file_name)
+				@article.file_path = file_path
+				if @article.save
+					File.open(file_path, "w") { |file| file.write page_content }
+				else
+					puts "article did not save"
+				end
+			else
+				puts "article did not save"
+			end	
 		end
 	end
 	
@@ -52,23 +70,6 @@ namespace :scrape do
 	end
 	
 	def create_article(options = {})
-        #{url, file_path, title, preview, updated, author}
-        page_content = options.delete(:page_content)
-
-        @article = Article.new(options)
        
-        if @article.save #{}"/public/assets/articles/filesavingtest.txt"
-            file_name = "article#{@article.id}.html"
-            file_path = Rails.root.join('public', 'assets', 'articles', file_name)
-            @article.file_path = file_path
-            if @article.save
-                File.open(file_path, "w") { |file| file.write page_content }
-            else
-                puts "article did not save"
-            end
-        else
-            puts "article did not save"
-        end
-
     end
 end
