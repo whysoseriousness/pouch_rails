@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
       	@articles = []
         last_sync_time = parse_date(params[:time])
      	@subscriptions.each do |s|
-			@articles.push({name: s.source.name, feed: s.source.articles.where("created_at > ?", last_sync_time)})
+			@articles.push({name: s.source.name, feed: s.source.articles})#.where("created_at > ?", last_sync_time)})
 		end
 		respond_to do |format|
 			format.html # index.html.erb
