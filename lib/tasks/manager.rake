@@ -17,9 +17,12 @@ namespace :manage do
 		create_subscription()
 	end
 	
-	task :cleardb => :environment do
+	task :rescrape_all => :environment do
 		Rake::Task["db:reset"].reenable
 		Rake::Task["db:reset"].invoke
+		
+		Rake::Task["scrape:all"].reenable
+		Rake::Task["scrape:all"].invoke
 	end
 	
 	def create_source(name, url)

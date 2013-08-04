@@ -37,9 +37,7 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) 
 			
-			page_content.css("a").each do |a|
-				a.replace(a.content)
-			end
+			page_content = format_content(page_content)
 			
 			#puts "Title: #{title}"
 			#puts "Published: #{published} (last updated #{updated})"
@@ -54,7 +52,7 @@ namespace :scrape do
 							author: author,
 							preview: preview,
 							source_url: source_url,
-							page_content: page_content.to_s})
+							page_content: page_content})
 		end
 	end
 	
@@ -85,9 +83,7 @@ namespace :scrape do
 			
 			preview = get_preview(page_content)
 			
-			page_content.css("a").each do |a|
-				a.replace(a.content)
-			end
+			page_content = format_content(page_content)
 			
 			#puts "Title: #{title}"
 			#puts "Published: #{published} (last updated #{updated})"
@@ -102,7 +98,7 @@ namespace :scrape do
 							author: author,
 							preview: preview,
 							source_url: source_url,
-							page_content: page_content.to_s})
+							page_content: page_content})
 		end
 	end
 	
@@ -121,6 +117,16 @@ namespace :scrape do
 		num_words = 10
 		all_text = html.at_css("p").text
 		return all_text.split(/\s+/, num_words+1)[0...num_words].join(' ') + '...'
+	end
+	
+	def format_content(page_content)
+		page_content.css("a").each do |a|
+				a.replace(a.content)
+		end
+		
+		page_content = page_content.to_s
+
+		return page_content.gsub!(/"/, '\"')
 	end
 	
 	def create_article(options = {})
