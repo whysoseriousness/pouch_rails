@@ -5,8 +5,9 @@ class ArticlesController < ApplicationController
     if(params[:user])
       	@subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
       	@articles = []
+        last_sync_time = parse_date(params[:time])
      	@subscriptions.each do |s|
-			@articles.push({name: s.source.name, feed: s.source.articles})
+			@articles.push({name: s.source.name, feed: s.source.articles.where("created_at > ?", last_sync_time)})
 		end
 		respond_to do |format|
 			format.html # index.html.erb
@@ -92,3 +93,19 @@ class ArticlesController < ApplicationController
     end
   end
 end
+
+private
+
+  def parse_date(str)
+    year = str.match(/^[0-9]*/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+    month = str.match(/-[0-9]{2}-/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+    day = str.match(/-[0-9]{2}\|/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+
+    hour = str.match(/\|[0-9]{2}:/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+    minute = str.match(/:[0-9]{2}:/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+    second = str.match(/:[0-9]{2}\|/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+
+    offset = str.match(/\|[0-9]{0,2}\z/).to_s.gsub(":","").gsub("|","").gsub("-","").to_s
+
+    Time.new(year, month, day, hour, minute)
+  end
