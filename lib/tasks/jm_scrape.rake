@@ -5,7 +5,10 @@ namespace :jm_scrape do
         #{url, file_path, title, preview, updated, author}
         page_content = options.delete(:page_content)
 
-        @article = Article.new(options)
+        source_url = options.delete(:source_url)
+
+        @source = Source.where("url = ?", source_url)
+        @article = @source.articles.new(options)
        
         if @article.save #{}"/public/assets/articles/filesavingtest.txt"
             file_name = "article#{@article.id}.html"
