@@ -124,8 +124,9 @@ namespace :scrape do
 		art = Article.where("url = ?", options[:url]).first
 		if art.nil?
 			@source = Source.where("url = ?", source_url).first
-			@article = @source.articles.new(options)
-		   
+			@article = Article.new(options)
+		   	@article.source_id = @source.id
+		   	
 			if @article.save #{}"/public/assets/articles/filesavingtest.txt"
 				file_name = "article#{@article.id}.html"
 				file_path = Rails.root.join('public', 'assets', 'articles', file_name)
