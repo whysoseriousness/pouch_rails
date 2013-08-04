@@ -3,10 +3,11 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def index
     if(params[:user])
-      @subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
-      @articles = []
-      @subscriptions.each do |s|
-        @articles.push({name: s.name, feed: s.source.articles})
+		@articles = params[:user].to_s
+#      @subscriptions = User.where("email=?", params[:user][:email]).first.subscriptions
+#      @articles = []
+#      @subscriptions.each do |s|
+#        @articles.push({name: s.name, feed: s.source.articles})
       end
     else
       @articles = Article.all

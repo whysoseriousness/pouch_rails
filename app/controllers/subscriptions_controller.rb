@@ -40,6 +40,7 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions
   # POST /subscriptions.json
   def create
+	inputs = params[:subscription]
     @subscription = Subscription.new(params[:subscription])
 
     respond_to do |format|
