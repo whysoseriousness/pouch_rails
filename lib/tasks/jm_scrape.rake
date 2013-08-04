@@ -10,7 +10,7 @@ namespace :jm_scrape do
         if @article.save #{}"/public/assets/articles/filesavingtest.txt"
             file_name = "article#{@article.id}.html"
             file_path = Rails.root.join('public', 'assets', 'articles', file_name)
-            @article.file_path = file_path
+            @article.file_path = file_name
             if @article.save
                 File.open(file_path, "w") { |file| file.write page_content }
             else

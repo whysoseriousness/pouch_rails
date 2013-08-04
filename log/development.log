@@ -1,0 +1,129 @@
+Connecting to database specified by database.yml
+  [1m[36m (2.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateTests (20130803184415)
+Migrating to DeviseCreateUsers (20130803195116)
+Migrating to CreateArticles (20130803203625)
+Migrating to AddFieldsToArticle (20130803213651)
+Migrating to AddPubDateEtcToArticle (20130803215050)
+  [1m[35m (0.4ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (7.3ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", "author"], ["created_at", Sat, 03 Aug 2013 22:36:26 UTC +00:00], ["file_path", nil], ["preview", "preview"], ["published", "published"], ["title", "title_string"], ["updated", "updated"], ["updated_at", Sat, 03 Aug 2013 22:36:26 UTC +00:00], ["url", "http://www.test.com"]]
+  [1m[36m (2.1ms)[0m  [1mCOMMIT[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (7.5ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", "author"], ["created_at", Sat, 03 Aug 2013 22:42:13 UTC +00:00], ["file_path", nil], ["preview", "preview"], ["published", "published"], ["title", "title_string"], ["updated", "updated"], ["updated_at", Sat, 03 Aug 2013 22:42:13 UTC +00:00], ["url", "http://www.test.com"]]
+  [1m[36m (1.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article5.html', "updated_at" = '2013-08-03 22:42:13.105996' WHERE "articles"."id" = 5[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+Connecting to database specified by database.yml
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.6ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", "author"], ["created_at", Sat, 03 Aug 2013 22:46:07 UTC +00:00], ["file_path", nil], ["preview", "preview"], ["published", "published"], ["title", "title_string"], ["updated", "updated"], ["updated_at", Sat, 03 Aug 2013 22:46:07 UTC +00:00], ["url", "http://www.test.com"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mUPDATE "articles" SET "file_path" = 'article6.html', "updated_at" = '2013-08-03 22:46:07.557081' WHERE "articles"."id" = 6[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+Connecting to database specified by database.yml
+
+
+Started POST "/articles" for 127.0.0.1 at 2013-08-03 20:17:11 -0400
+Processing by ArticlesController#create as JSON
+  Parameters: {"user"=>{"email"=>"email@email.com", "password"=>"[FILTERED]"}, "article"=>{}}
+WARNING: Can't verify CSRF token authenticity
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (43.7ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", nil], ["created_at", Sun, 04 Aug 2013 00:17:11 UTC +00:00], ["file_path", nil], ["preview", nil], ["published", nil], ["title", nil], ["updated", nil], ["updated_at", Sun, 04 Aug 2013 00:17:11 UTC +00:00], ["url", nil]]
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 97ms (Views: 2.4ms | ActiveRecord: 55.0ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-08-03 20:17:48 -0400
+Served asset /rails.png - 304 Not Modified (2ms)
+
+
+Started GET "/activities" for 127.0.0.1 at 2013-08-03 20:17:50 -0400
+
+ActionController::RoutingError (No route matches [GET] "/activities"):
+  vendor/bundle/gems/actionpack-3.2.13/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/bundle/gems/actionpack-3.2.13/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/rack/logger.rb:32:in `call_app'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/rack/logger.rb:16:in `block in call'
+  vendor/bundle/gems/activesupport-3.2.13/lib/active_support/tagged_logging.rb:22:in `tagged'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/rack/logger.rb:16:in `call'
+  vendor/bundle/gems/actionpack-3.2.13/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  vendor/bundle/gems/rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  vendor/bundle/gems/rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  vendor/bundle/gems/activesupport-3.2.13/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  vendor/bundle/gems/rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  vendor/bundle/gems/actionpack-3.2.13/lib/action_dispatch/middleware/static.rb:63:in `call'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/engine.rb:479:in `call'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/application.rb:223:in `call'
+  vendor/bundle/gems/rack-1.4.5/lib/rack/content_length.rb:14:in `call'
+  vendor/bundle/gems/railties-3.2.13/lib/rails/rack/log_tailer.rb:17:in `call'
+  vendor/bundle/gems/rack-1.4.5/lib/rack/handler/webrick.rb:59:in `service'
+  /Users/joshuamartin/.rbenv/versions/1.9.3-p448/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /Users/joshuamartin/.rbenv/versions/1.9.3-p448/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /Users/joshuamartin/.rbenv/versions/1.9.3-p448/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered vendor/bundle/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (3.4ms)
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Processing by ArticlesController#index as HTML
+  [1m[35mArticle Load (1.1ms)[0m  SELECT "articles".* FROM "articles" 
+  Rendered articles/index.html.erb within layouts/application (7.2ms)
+Completed 200 OK in 89ms (Views: 85.5ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /jquery.js - 304 Not Modified (10ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /jquery_ujs.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /scaffolds.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/tests.css?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /tests.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/articles.css?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /articles.css - 304 Not Modified (29ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /application.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/articles.js?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /articles.js - 304 Not Modified (4ms)
+
+
+Started GET "/assets/tests.js?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /tests.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-03 20:17:51 -0400
+Served asset /application.js - 304 Not Modified (8ms)
+
+
+Started POST "/articles" for 127.0.0.1 at 2013-08-03 20:20:24 -0400
+Processing by ArticlesController#create as JSON
+  Parameters: {"user"=>{"email"=>"email@email.com", "password"=>"[FILTERED]"}, "article"=>{}}
+WARNING: Can't verify CSRF token authenticity
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "articles" ("author", "created_at", "file_path", "preview", "published", "title", "updated", "updated_at", "url") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"  [["author", nil], ["created_at", Sun, 04 Aug 2013 00:20:24 UTC +00:00], ["file_path", nil], ["preview", nil], ["published", nil], ["title", nil], ["updated", nil], ["updated_at", Sun, 04 Aug 2013 00:20:24 UTC +00:00], ["url", nil]]
+  [1m[36m (1.8ms)[0m  [1mCOMMIT[0m
+Completed 201 Created in 6ms (Views: 1.1ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/articles" for 127.0.0.1 at 2013-08-03 20:23:17 -0400
+Processing by ArticlesController#index as JSON
+  Parameters: {"user"=>{"email"=>"email@email.com", "password"=>"[FILTERED]"}, "article"=>{}}
+  [1m[35mArticle Load (0.7ms)[0m  SELECT "articles".* FROM "articles" 
+Completed 200 OK in 6ms (Views: 4.3ms | ActiveRecord: 0.7ms)
