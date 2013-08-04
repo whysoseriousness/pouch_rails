@@ -32,7 +32,6 @@ namespace :scrape do
 			preview_raw = HTMLEntities.new.decode item.at_css("content")
 			preview = get_preview(Nokogiri::HTML(preview_raw))
 			
-			
 			# Logic to get page_content
 			page_url = item.at_css("id").text
 			page_doc = Nokogiri::HTML(open(page_url))
@@ -58,7 +57,6 @@ namespace :scrape do
 	task :techcrunch_list => :environment do
 		techcrunch()
 	end
-
 		
 	def techcrunch()
 		url = 'http://feeds.feedburner.com/TechCrunch/'
@@ -117,19 +115,19 @@ namespace :scrape do
 	def create_article(options = {})
 		page_content = options.delete(:page_content)
 
-			@article = Article.new(options)
-		   
-			if @article.save #{}"/public/assets/articles/filesavingtest.txt"
-				file_name = "article#{@article.id}.html"
-				file_path = Rails.root.join('public', 'assets', 'articles', file_name)
-				@article.file_path = file_path
-				if @article.save
-					File.open(file_path, "w") { |file| file.write page_content }
-				else
-					puts "article did not save"
-				end
+		@article = Article.new(options)
+	   
+		if @article.save #{}"/public/assets/articles/filesavingtest.txt"
+			file_name = "article#{@article.id}.html"
+			file_path = Rails.root.join('public', 'assets', 'articles', file_name)
+			@article.file_path = file_path
+			if @article.save
+				File.open(file_path, "w") { |file| file.write page_content }
 			else
 				puts "article did not save"
-			end	
+			end
+		else
+			puts "article did not save"
+		end	
     end
 end
