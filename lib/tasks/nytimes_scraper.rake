@@ -123,7 +123,7 @@ namespace :scrape do
         # TODO: first or create
 		art = Article.where("url = ?", options[:url]).first
 		if art.nil?
-			@source = Source.where("url = ?", source_url).first
+			@source = Source.where("url = ?", source_url).first_or_create
 			@article = Article.new(options)
 		   	@article.source_id = @source.id
 		   	
