@@ -11,19 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130804014312) do
+ActiveRecord::Schema.define(:version => 20130804042027) do
 
   create_table "articles", :force => true do |t|
     t.text     "url"
     t.text     "file_path"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "title"
     t.text     "preview"
     t.string   "published"
     t.string   "updated"
     t.string   "author"
     t.integer  "source_id"
+    t.text     "page_content"
   end
 
   create_table "sources", :force => true do |t|

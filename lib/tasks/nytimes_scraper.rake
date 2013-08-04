@@ -94,7 +94,7 @@ namespace :scrape do
 							author: author,
 							preview: preview,
 							source_url: source_url,
-							page_content: page_content})
+							page_content: page_content.to_s})
 		end
 	end
 	
@@ -116,7 +116,7 @@ namespace :scrape do
 	
 	def create_article(options = {})
 		#{url, file_path, title, preview, updated, author}
-        page_content = options.delete(:page_content)
+        #page_content = options.delete(:page_content)
 
         source_url = options.delete(:source_url)
 		
@@ -132,7 +132,7 @@ namespace :scrape do
 				file_path = Rails.root.join('public', 'assets', 'articles', file_name)
 				@article.file_path = file_name
 				if @article.save
-					File.open(file_path, "w") { |file| file.write page_content }
+					# File.open(file_path, "w") { |file| file.write page_content }
 				else
 					puts "article did not save"
 				end
