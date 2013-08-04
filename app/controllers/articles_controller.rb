@@ -9,12 +9,12 @@ class ArticlesController < ApplicationController
         @articles.push({name: s.name, feed: s.source.articles})
       end
     else
-      @articles = [{name: "all", feed: Article.all}]
+      @articles = Article.all
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @articles }
+      format.json { render json:[{name: "all", feed: @articles}] }
     end
   end
 

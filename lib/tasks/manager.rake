@@ -30,10 +30,11 @@ namespace :manage do
 		end
 	end
 	
+	# or just call curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" http://serene-ridge-8390.herokuapp.com/users
 	def create_user()
 		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" localhost:3000/users'
 		
-		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" http://serene-ridge-8390.herokuapp.com/'
+		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" http://serene-ridge-8390.herokuapp.com/users'
 	
 #		user = User.where("email = ?", email).first
 #		if user.nil?
