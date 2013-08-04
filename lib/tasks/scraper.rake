@@ -125,9 +125,9 @@ namespace :scrape do
 		end
 		
 		page_content = page_content.to_s
-		page_content = page_content.gsub!(/\\/, '\\') #make sure to do this before encoding double quotes!
+		page_content = page_content.gsub(/\\/, '\\') #make sure to do this before encoding double quotes!
 
-		return page_content.gsub!(/"/, '\"')
+		return page_content.gsub(/"/, '\"')
 	end
 	
 	def create_article(options = {})
