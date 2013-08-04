@@ -13,9 +13,12 @@ namespace :manage do
 	end
 	
 	def create_source(name, url)
-		@source = Source.new({name: name, url: url})
-		unless @source.save
-			puts "article did not save"
+		source = Source.where("url = ?", url).first
+		if source.nil?
+			@source = Source.new({name: name, url: url})
+			unless @source.save
+				puts "article did not save"
+			end
 		end
 	end
 end
