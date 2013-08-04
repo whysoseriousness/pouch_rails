@@ -27,22 +27,26 @@ namespace :scrape do
 			page_doc = Nokogiri::HTML(open(page_url))
 			page_content = pretty_strip(page_doc.at_css(".article-body")) #Before: .entry-content
 			
-			#puts "#{title} - #{published} (last updated #{updated})"
-			#puts "By #{author}"
-			#puts preview
-			#puts page_url
-			#puts page_content
-			
-			options = {url: page_url,
+			create_article({url: page_url,
 							title: title,
 							published: published,
 							updated: updated,
 							author: author,
 							preview: preview,
-							page_content: page_content}
-			 #{url, file_path, title, preview, updated, author}
-			 
-			page_content = options.delete(:page_content)
+							page_content: page_content})
+		end
+	end
+	
+	# remove white space between lines
+	def pretty_strip(html) 
+		html.search('//text()').each do |t| 
+			t.replace(t.content.strip)
+		end
+		return html
+	end
+	
+	def create_article(options = {})
+		page_content = options.delete(:page_content)
 
 			@article = Article.new(options)
 		   
@@ -58,18 +62,5 @@ namespace :scrape do
 			else
 				puts "article did not save"
 			end	
-		end
-	end
-	
-	# remove white space between lines
-	def pretty_strip(html) 
-		html.search('//text()').each do |t| 
-			t.replace(t.content.strip)
-		end
-		return html
-	end
-	
-	def create_article(options = {})
-       
     end
 end

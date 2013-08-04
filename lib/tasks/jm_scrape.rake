@@ -2,6 +2,8 @@ namespace :jm_scrape do
     desc "save new article"
     
     def create_article(options = {})
+		
+	
         #{url, file_path, title, preview, updated, author}
         page_content = options.delete(:page_content)
 
