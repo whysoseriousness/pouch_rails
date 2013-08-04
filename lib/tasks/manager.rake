@@ -1,7 +1,7 @@
 namespace :manage do
 	task :init => :environment do
-		create_source("The Verge", 'http://www.theverge.com/rss/frontpage')
-		create_source("Tech Crunch", 'http://feeds.feedburner.com/TechCrunch/')
+		create_source("The Verge", 'http://www.theverge.com/')
+		create_source("Tech Crunch", 'http://www.techcrunch.com')
 	end
 	
 	def create_source(name, url)
