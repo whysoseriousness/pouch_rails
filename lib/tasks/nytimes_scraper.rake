@@ -123,7 +123,6 @@ namespace :scrape do
         # TODO: first or create
 		art = Article.where("url = ?", options[:url]).first
 		if art.nil?
-			puts "Article #{art} does not exist"
 			@source = Source.where("url = ?", source_url).first
 			@article = @source.articles.new(options)
 		   
