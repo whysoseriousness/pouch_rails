@@ -50,7 +50,7 @@ namespace :scrape do
 							author: author,
 							preview: preview,
 							source_url: source_url,
-							page_content: page_content})
+							page_content: page_content.to_s})
 		end
 	end
 	
