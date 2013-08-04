@@ -9,7 +9,7 @@ namespace :manage do
 		create_source("The Verge", 'http://www.theverge.com/')
 		create_source("Tech Crunch", 'http://www.techcrunch.com')
 		
-		create_user("test@test.com", "password")
+		create_user()
 		
 		Rake::Task["scrape:all"].reenable
 		Rake::Task["scrape:all"].invoke
@@ -30,13 +30,17 @@ namespace :manage do
 		end
 	end
 	
-	def create_user(email, password)
-		user = User.where("email = ?", email).first
-		if user.nil?
-			user = User.new({email: email, encrypted_password: password})
-			unless user.save
-				puts "user did not save"
-			end
-		end
+	def create_user()
+		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" localhost:3000/users'
+		
+		Kernel.system 'curl -d "user[email]=test@test.com" -d "user[password]=password" -d "user[password_confirmation]=password" http://serene-ridge-8390.herokuapp.com/'
+	
+#		user = User.where("email = ?", email).first
+#		if user.nil?
+#			user = User.new({email: email, encrypted_password: password})
+#			unless user.save
+#				puts "user did not save"
+#			end
+#		end
 	end
 end
