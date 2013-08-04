@@ -125,6 +125,7 @@ namespace :scrape do
 		end
 		
 		page_content = page_content.to_s
+		page_content = page_content.gsub!(/\\/, '\\')
 
 		return page_content.gsub!(/"/, '\"')
 	end
